@@ -8,11 +8,27 @@
 
 .wall{
   &-post {
-    padding: .5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 3px;
+    padding: 1rem;
+    background-color: lighten(#eee, 3%);
+    &:hover {
+      background-color: #fff;
+    }
+    > img {
+      display: block;
+      @include push--auto();
+    }
     &__text {
       color: #333;
-      padding-top: .5rem;
-      padding-bottom: .5rem;
+      padding: .5rem;
+      margin: 0;
     }
   }
+}
+
+.news {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

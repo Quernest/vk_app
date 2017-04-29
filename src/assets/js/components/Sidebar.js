@@ -3,6 +3,10 @@ import React, { Component } from "react";
 class Sidebar extends Component {
   constructor(props) {
     super(props);
+    this._handlerOnClick = this._handlerOnClick.bind(this);
+  }
+  _handlerOnClick(e) {
+    this.props.onLogout();
   }
   render() {
     const { data } = this.props;
@@ -18,7 +22,7 @@ class Sidebar extends Component {
           </a>
           <div className="profile__info m-t-1">
             <span>Друзей: <strong>{data.friends.length}</strong></span>
-            <button type="button" className="btn btn-success">Выйти</button>
+            <button type="button" className="btn btn-success" onClick={this._handlerOnClick}>Выйти</button>
           </div>
         </div>
 
@@ -38,7 +42,6 @@ class Sidebar extends Component {
               })
             }
         </div>
-        
       </div>
     );
   }

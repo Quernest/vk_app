@@ -18,6 +18,7 @@ class App extends Component {
     componentDidMount() {
         this.init();
         this.login();
+        this.access();
     }
 
     init() {
@@ -41,6 +42,20 @@ class App extends Component {
         this.getFriends();
     }
 
+    logout() {
+        VK.Auth.logout();
+        alert("Вы вышли.");
+        this.setState({ isRender: false });
+    }
+
+    access() {
+        VK.Auth.getLoginStatus((response) => {
+            if(response.session) {
+                console.log(response.session);
+            }
+        })
+    }
+
     getFriends() {
         VK.Api.call('friends.get', { count: 10, order: "hints", fields: 'photo_100, status' }, (data) => {
             this.setState({ friends: data.response });
@@ -61,7 +76,7 @@ class App extends Component {
                 <div className="container-fluid">
                     { isLoad &&
                         <div className="row">  
-                            <Sidebar data={this.state} />
+                            <Sidebar data={this.state} onLogout={this.logout} />
                             <Dashboard onAddPost={this.addPost} wall={wall} />
                         </div>
                     }
