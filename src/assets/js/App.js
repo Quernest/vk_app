@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Sidebar from './components/Sidebar.js';
 import Dashboard from './components/Dashboard.js';
+import AuthPage from './components/AuthPage.js';
 
 class App extends Component {
     constructor() {
@@ -17,7 +18,6 @@ class App extends Component {
     componentDidMount() {
         this.init();
         this.login();
-        this.getFriends();
     }
 
     init() {
@@ -30,16 +30,15 @@ class App extends Component {
         const vk = this.vk;
         const authInfo = (response) => {
             if(response.session) {
-                const user = response.session.user;
-                if(user) {
-                    this.setState({ isRender : true });
-                    this.setState({ user : user });
-                }
+                const { user } = response.session;
+                this.setState({ user: user, isRender: true });
                 VK.Api.call('status.get', { user_id: user.id }, (data) => this.setState({ status: data.response.text }));
-                VK.Api.call('users.get' , { user_id: user.id, fields: "photo_100" }, (data) => this.setState({ avatar: data.response[0].photo_100}));   
+                VK.Api.call('users.get' , { user_id: user.id, fields: "photo_100" }, (data) => this.setState({ avatar: data.response[0].photo_100}));
+                VK.Api.call('wall.get', { owner_id: user.id }, (data) => this.setState({ wall: data.response }));   
             }
         }
         VK.Auth.login(authInfo, vk.appPermissions);
+        this.getFriends();
     }
 
     getFriends() {
@@ -53,17 +52,22 @@ class App extends Component {
     }
     
     render() {
-        const data = this.state;
-        return(
-            <div className="container-fluid">
-                { data.isRender && data.user && data.avatar && data.friends && data.status &&
-                    <div className="row">  
-                        <Sidebar data={data} />
-                        <Dashboard actions={this.addPost} />
-                    </div>
-                }
-            </div>
-        );
+        const {isRender, user, avatar, friends, status, wall} = this.state;
+        const isLoad = isRender && avatar && friends && status && wall;
+        if(!isLoad) 
+            return <AuthPage />
+        else {
+            return(
+                <div className="container-fluid">
+                    { isLoad &&
+                        <div className="row">  
+                            <Sidebar data={this.state} />
+                            <Dashboard onAddPost={this.addPost} wall={wall} />
+                        </div>
+                    }
+                </div>
+            );   
+        }
     }
 };
 

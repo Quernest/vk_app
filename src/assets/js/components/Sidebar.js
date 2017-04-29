@@ -5,15 +5,13 @@ class Sidebar extends Component {
     super(props);
   }
   render() {
-    const data = this.props.data;
-    const friends = data.friends;
+    const { data } = this.props;
     return (
       <div className="col-sm-5 col-md-5 col-lg-4 col-xl-3 sidebar">
-
         <div className="profile m-t-2 m-b-1">
           <h4>{`${data.user.first_name} ${data.user.last_name}`}</h4>
           <div className="profile__status">
-            <q><i>{data.status}</i></q>
+           <p>{data.status}</p>
           </div>
           <a href={`https://vk.com/id${data.user.id}`}>
             <img src={data.avatar} className="img-circle profile__avatar" alt="img" />

@@ -5,3 +5,14 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.wall{
+  &-post {
+    padding: .5rem;
+    &__text {
+      color: #333;
+      padding-top: .5rem;
+      padding-bottom: .5rem;
+    }
+  }
+}

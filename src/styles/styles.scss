@@ -10,8 +10,10 @@
 // * site components * //
 @import 'components/sidebar';
 @import 'components/dashboard';
+@import 'components/authpage';
 
 // * site modules * // 
 @import 'modules/profile';
 @import 'modules/friends';
+
 @import 'general';
