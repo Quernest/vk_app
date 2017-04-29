@@ -1,0 +1,70 @@
+$browser-context: 16;
+
+@function em($pixels, $context: $browser-context){
+  @return #{$pixels/$context}em;
+}
+
+@mixin push--auto(){
+	  margin-left:  auto;
+    margin-right: auto;
+}
+
+@mixin htitle($width, $height, $url){
+	&::before, &::after{
+		position: absolute;
+		content: '';
+		top: 50%;
+		margin-top: -$height / 2;
+		width: $width;
+		height: $height;
+		background: url("#{$url}") no-repeat center center;
+		background-size: contain;
+    }
+	&::before{
+		margin-left: -$width - $width/4;
+    }
+	&::after{
+		margin-left: $width / 4;
+		transform: scale(-1, 1);
+    }
+}
+
+@mixin size($width, $min-height, $height: auto){
+	width:      $width;
+	min-height: $min-height;
+	height:     $height;
+}
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; 
+    display: table; 
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin container($max-width: 1024, $padding: .5rem) {
+  .container {
+    width: 100%;
+    max-width: em($max-width);
+    padding: $padding;
+    @include push--auto();
+  }
+}
+
+@mixin for-size($size) {
+  @if $size == phone-only {
+    @media (max-width: em(599)) { @content; }
+  } @else if $size == tablet-portrait-up {
+    @media (min-width: em(600)) { @content; }
+  } @else if $size == tablet-landscape-up {
+    @media (min-width: em(900)) { @content; }
+  } @else if $size == desktop-up {
+    @media (min-width: em(1200)) { @content; }
+  } @else if $size == big-desktop-up {
+    @media (min-width: em(1800)) { @content; }
+  }
+}

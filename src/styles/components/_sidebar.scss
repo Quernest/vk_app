@@ -1,0 +1,9 @@
+.sidebar {
+  background-color: $blue;
+  color: #eee;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  &::-webkit-scrollbar { width: 0; }
+  -ms-overflow-style: none;
+}

@@ -1,0 +1,5 @@
+/node_modules/
+/src/assets/video/*
+/dist/video/*
+.htaccess
+npm-debug.log

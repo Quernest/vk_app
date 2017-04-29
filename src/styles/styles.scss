@@ -1,0 +1,17 @@
+// * libs * //
+// $fa-font-path: "~font-awesome/fonts";
+// @import '~font-awesome/scss/font-awesome';
+// @import 'bootstrap/customizations.scss';
+
+// * site core * // 
+@import 'core/mixins';
+@import 'core/variables';
+
+// * site components * //
+@import 'components/sidebar';
+@import 'components/dashboard';
+
+// * site modules * // 
+@import 'modules/profile';
+@import 'modules/friends';
+@import 'general';
