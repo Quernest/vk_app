@@ -6,19 +6,14 @@ class Dashboard extends Component {
   }
   render() {
     return(
-      <div className="col-sm-8 col-md-8 col-lg-9 col-xl-10 dashboard">
+      <div className="col-sm-7 col-md-7 col-lg-8 col-xl-9 dashboard">
         <div className="wall m-t-1">
-          <button type="button" className="btn btn-primary">Добавить пост</button>
+          <button type="button" className="btn btn-primary" onClick={this.props.actions}>Добавить пост</button>
           <hr/>
           <div className="wall-post">
             <div className="row">
               <div className="col-sm-8">
-                <img src="//placehold.it/768x400" alt="fish" className="img-fluid"/>
-                <img src="//placehold.it/768x400" alt="fish" className="img-fluid"/>
-                <img src="//placehold.it/768x400" alt="fish" className="img-fluid"/>
-                <img src="//placehold.it/768x400" alt="fish" className="img-fluid"/>
-                <img src="//placehold.it/768x400" alt="fish" className="img-fluid"/>
-                <img src="//placehold.it/768x400" alt="fish" className="img-fluid"/>
+
               </div>
             </div>
           </div>

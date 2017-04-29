@@ -3,95 +3,44 @@ import React, { Component } from "react";
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props)
   }
   render() {
-    const user = this.props.data;
+    const data = this.props.data;
+    const friends = data.friends;
     return (
-      <div className="col-sm-4 col-md-4 col-lg-3 col-xl-2 sidebar">
-        <div className="profile d-flex text-sm-center m-t-2 m-b-1">
-          <h4>{this.props.data === undefined ? "Loading..." : `${user.first_name} ${user.last_name}`}</h4>
-          <p>your status</p>
-          <a href="#">
-            <img src="//placehold.it/150x150" className="img-circle" alt="img" />
+      <div className="col-sm-5 col-md-5 col-lg-4 col-xl-3 sidebar">
+
+        <div className="profile m-t-2 m-b-1">
+          <h4>{`${data.user.first_name} ${data.user.last_name}`}</h4>
+          <div className="profile__status">
+            <q><i>{data.status}</i></q>
+          </div>
+          <a href={`https://vk.com/id${data.user.id}`}>
+            <img src={data.avatar} className="img-circle profile__avatar" alt="img" />
           </a>
-        </div>
-        <div className="friends">
-          <div className="row">
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
-            <div className="col-sm-5 m-t-1 m-b-1">
-              <a href="#">
-                <img src="//placehold.it/125x125" className="img-circle friends__avatar" alt="img" />
-              </a>
-            </div>
-            <div className="col-sm-7 m-t-1 m-b-1">
-              <h5>Name</h5>
-              <p>friend status</p>
-            </div>
+          <div className="profile__info m-t-1">
+            <span>Друзей: <strong>{data.friends.length}</strong></span>
+            <button type="button" className="btn btn-success">Выйти</button>
           </div>
         </div>
+
+        <div className="friends">
+            {data.friends.map((item, index) => {
+              return <div className="friends-item row" key={index}>
+                  <div className="col-lg-4 m-t-2 m-b-2">
+                    <a href={`https://vk.com/id${item.uid}`}>
+                      <img src={item.photo_100} className="img-circle friends-item__avatar img-fluid" alt="img" />
+                    </a> 
+                  </div>
+                  <div className="col-lg-8 m-t-2 m-b-2 text-sm-center text-xl-left">
+                    <h5>{`${item.first_name} ${item.last_name}`}</h5>
+                    <p>{item.status}</p>
+                  </div>
+              </div>
+              })
+            }
+        </div>
+        
       </div>
     );
   }

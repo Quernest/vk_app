@@ -1,3 +1,20 @@
 .profile {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  &__status {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    color: darken(#eee, 5%);
+  }
+  &__avatar {
+    display: block;
+    @include push--auto();
+  }
+  &__info {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

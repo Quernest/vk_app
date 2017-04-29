@@ -1,14 +1,17 @@
 $border-color: rgba(#eee, .2);
 
 .friends {
-  border-top: 1px solid $border-color;
-  border-bottom: 1px solid $border-color;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  overflow: hidden;
   @include for-size(phone-only) {
     text-align: center;
   }
-  &__avatar {
-    max-width: 100px;
+  &-item {
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    &__avatar {
+      @include push--auto();
+    }
   }
 }
