@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-const poster = require('../../../assets/images/poster.png');
+import { POSTER } from '../constants/constants.js';
 
 class AuthPage extends Component {
   constructor(props) {
@@ -8,7 +8,8 @@ class AuthPage extends Component {
   render() {
     return (
       <div id="login">
-        <img src={poster} alt="poster" />
+        <img src={POSTER} alt="poster" />
+        <button name='login' className="btn btn-primary" onClick={this.props.onClick}>Авторизация</button>
       </div>
     );
   }

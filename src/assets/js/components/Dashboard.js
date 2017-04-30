@@ -1,41 +1,24 @@
 import React, { Component } from 'react';
+import News from './News.js';
 import * as utils from '../utils/reg.js';
+import * as storage from '../utils/localStorage.js';
+import { REFRESH_ICON } from '../constants/constants.js';
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const { wall } = this.props;
     return(
       <div className="col-sm-7 col-md-7 col-lg-8 col-xl-9 dashboard">
         <div className="wall m-t-1">
-          <button type="button" className="btn btn-primary" onClick={this.props.onAddPost}>Добавить пост</button>
+          <button type="button" className="btn btn-primary m-r-1" onClick={this.props.onAddPost}>Добавить пост</button>
+          <button type="button" className="btn btn-primary m-r-1" name="refresh" onClick={this.props.onClick}>Обновить</button>
+          {/*<img src={REFRESH_ICON} alt="refresh" name="refresh" className="img-fluid" onClick={this.props.onClick} />*/}
           <hr/>
             <div className="row">
-              <div className="col-lg-6">
-                {
-                  wall.map(function(element, index) {
-                    if(element.attachment) {
-                      const { type, photo, video } = element.attachment;
-                      const { text } = element;
-                      return (
-                        <div className="wall-post" key={index}>
-                          { text && <p className="wall-post__text" dangerouslySetInnerHTML={utils.createMarkup(text)}></p> }
-                          { type === 'photo' && <img src={photo.src_big} className="img-fluid" alt={`wall-post-img${index}`} /> }
-                          { type === 'video' && 
-                            <strong className="text-danger">Пост с видео (в разработке)</strong>
-                          }
-                        </div>
-                      );
-                    }       
-                  }, this)
-                }
-              </div>
-              <div className="col-lg-6">
-                <div className="news">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex molestiae nesciunt nulla repellat optio laborum expedita dignissimos voluptate nisi autem.</p>
-                </div>
+              <div className="col-lg-12">
+                <News />
               </div>
            </div>
         </div>

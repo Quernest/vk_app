@@ -1,0 +1,7 @@
+.icon {
+  &-refresh {
+      transform: rotate(180deg);
+      transition: $transition-slow ease-out;
+      cursor: pointer;
+  }
+}
