@@ -14,6 +14,6 @@ export function setAvatar() {
 }
 
 export function setStatus() {
-  const avatar = localStorage.getItem('user status');
-  return avatar;
+  const status = localStorage.getItem('user status');
+  return status;
 }
