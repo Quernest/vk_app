@@ -19,6 +19,16 @@ class Dashboard extends Component {
             <div className="row">
               <div className="col-lg-12">
                 <News />
+                <nav aria-label="...">
+                  <ul className="pagination">
+                    <li className="page-item disabled">
+                      <a className="page-link" href="#" tabIndex="-1">Previous</a>
+                    </li>
+                    <li className="page-item">
+                      <a className="page-link" href="#" name="pageNext" onClick={this.props.onClick}>Next</a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
            </div>
         </div>

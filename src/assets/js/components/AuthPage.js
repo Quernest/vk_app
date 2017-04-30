@@ -8,7 +8,7 @@ class AuthPage extends Component {
   render() {
     return (
       <div id="login">
-        <img src={POSTER} alt="poster" />
+        <img src={POSTER} alt="poster" className="img-fluid" />
         <button name='login' className="btn btn-primary" onClick={this.props.onClick}>Авторизация</button>
       </div>
     );

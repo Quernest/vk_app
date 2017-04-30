@@ -6,4 +6,7 @@
   overflow-x: hidden;
   &::-webkit-scrollbar { width: 0; }
   -ms-overflow-style: none;
+  @include for-size(phone-only) {
+    height: 100%;
+  }
 }

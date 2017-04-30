@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import Sidebar from './components/Sidebar.js';
 import Dashboard from './components/Dashboard.js';
 import AuthPage from './components/AuthPage.js';
+import { vk } from './config.js';
 
 class App extends Component {
     constructor() {
         super();
-        this.vk = {
-            appID: 5975459,
-            appPermissions: 65536+1024+2+8192
-        }
-        this.state = { isRender: false };
+        this.state = { 
+            isRender: false,
+            preloadCount : {
+                news : 10,
+                friends : 3,
+            } 
+        };
         this._handleOnClick = this._handleOnClick.bind(this);
     }
 
@@ -20,13 +23,12 @@ class App extends Component {
     }
 
     init() {
-        const { appID } = this.vk;
+        const { appID } = vk;
         VK.init({ apiId: appID });
         console.info("API initialisation successful");
     }
 
     login() {
-        const vk = this.vk;
         const authInfo = (response) => {
             if(response.session) {
                 const { user } = response.session;
@@ -53,24 +55,33 @@ class App extends Component {
     }
 
     getFriends() {
-        VK.Api.call('friends.get', { count: 15, order: "hints", fields: 'photo_100, status' }, (data) => {
+        const { friends } = this.state.preloadCount;
+        VK.Api.call('friends.get', { count: friends, order: "hints", fields: 'photo_100, status' }, (data) => {
             localStorage.setItem("user friends", JSON.stringify(data.response));
+            this.setState({ friends: JSON.stringify(data.response) });
         });
     }
 
     getNews(id) {
-        VK.Api.call('newsfeed.get', { filters: "post,photo", count: 10 }, (data) => {
+        const { news } = this.state.preloadCount;
+        VK.Api.call('newsfeed.get', { count: news, filters: "post,photo" }, (data) => {
             localStorage.setItem("user news", JSON.stringify(data.response));
-            console.log("news ", data.response);
+            this.setState({ news: JSON.stringify(data.response) });
         });
     }
 
     getStatus(id) {
-        VK.Api.call('status.get', { user_id: id }, (data) => localStorage.setItem('user status', data.response.text));
+        VK.Api.call('status.get', { user_id: id }, (data) => {
+            localStorage.setItem('user status', data.response.text);
+            this.setState({ status: data.response.text });
+        });
     }
 
     getAvatar(id) {
-        VK.Api.call('users.get' , { user_id: id, fields: "photo_100" }, (data) => localStorage.setItem('user avatar', data.response[0].photo_100));
+        VK.Api.call('users.get' , { user_id: id, fields: "photo_100" }, (data) => {
+            localStorage.setItem('user avatar', data.response[0].photo_100);
+            this.setState({ avatar: data.response[0].photo_100 });
+        });
     }
 
     addPost() {
@@ -78,21 +89,22 @@ class App extends Component {
     }
 
     checkLocalStorage(id) {
-        if(localStorage.getItem("user status") === null) {
+        if(localStorage.getItem("user status") === null || undefined) {
             this.getStatus(id);
         }
-        if(localStorage.getItem("user avatar") === null) {
+        if(localStorage.getItem("user avatar") === null || undefined) {
             this.getAvatar(id);
         }
         if(localStorage.getItem("user news") === null || undefined) {
             this.getNews(id);
         }
-        if(localStorage.getItem("user friends") === null) {
+        if(localStorage.getItem("user friends") === null || undefined) {
             this.getFriends();
         }
     }
 
     _handleOnClick(e) {
+        const { user, preloadCount } = this.state;
         e.preventDefault();
         const target = e.target;
         const name = target.name;
@@ -107,32 +119,38 @@ class App extends Component {
             case 'logout': value = name;
             this.logout();
             break;
+            case 'pageNext': value = name;
+            this.setState({ preloadCount: { news: preloadCount.news += 10, friends: preloadCount.friends }})
+            this.getNews(user.id);
+            break;
             default : value = null;
         }
     }
 
     refresh() {
-        const { user } = this.state;
+        const { user, preloadCount } = this.state;
         this.getFriends();
         this.getStatus(user.id);
         this.getAvatar(user.id);
         this.getNews(user.id);
-        this.setState({ refresh: true });
         console.info("updated");
     }
     
     render() {
         const { isRender, user } = this.state;
         const isLoad = isRender && user;
+        console.log(this.state);
         return(
-            <div className="container-fluid">
+            <div id="wrapper">
                 { !isRender &&
                     <AuthPage onClick={this._handleOnClick} /> 
                 }
                 { isLoad &&
-                    <div className="row">  
-                        <Sidebar data={this.state} onClick={this._handleOnClick} />
-                        <Dashboard data={this.state} onAddPost={this.addPost} onClick={this._handleOnClick} />
+                    <div className="container-fluid">
+                        <div className="row">  
+                            <Sidebar data={this.state} onClick={this._handleOnClick} />
+                            <Dashboard data={this.state} onAddPost={this.addPost} onClick={this._handleOnClick} />
+                        </div>
                     </div>
                 }
             </div>

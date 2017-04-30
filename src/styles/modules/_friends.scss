@@ -6,6 +6,7 @@ $border-color: rgba(#eee, .2);
   overflow: hidden;
   @include for-size(phone-only) {
     text-align: center;
+    display: none;
   }
   &-item {
     border-top: 1px solid $border-color;
