@@ -4,15 +4,24 @@ $border-color: rgba(#eee, .2);
   padding-top: .5rem;
   padding-bottom: .5rem;
   overflow: hidden;
-  @include for-size(phone-only) {
-    text-align: center;
-    display: none;
-  }
+  text-align: center;
   &-item {
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
     &__avatar {
+      display: block;
+      max-width: 100px;
       @include push--auto();
+    }
+  }
+  @include for-size(phone-only) {
+    text-align: left;
+    display: none;
+    &-item {
+      &__avatar {
+          margin: 0;
+          max-width: 50px;
+      }
     }
   }
 }

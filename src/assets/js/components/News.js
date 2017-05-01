@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as utils from '../utils/reg.js';
+import * as utils from '../utils/features.js';
 import * as storage from '../utils/localStorage.js'; 
 
 export default function News(props) {

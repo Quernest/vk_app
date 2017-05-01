@@ -9,10 +9,8 @@ class App extends Component {
         super();
         this.state = { 
             isRender: false,
-            preloadCount : {
-                news : 10,
-                friends : 3,
-            } 
+            countLoadFriends : 10,
+            countLoadNews : 10
         };
         this._handleOnClick = this._handleOnClick.bind(this);
     }
@@ -20,6 +18,10 @@ class App extends Component {
     componentDidMount() {
         this.init();
         this.access();
+    }
+
+    componentWillUnmount() {
+        localStorage.clear();
     }
 
     init() {
@@ -55,16 +57,16 @@ class App extends Component {
     }
 
     getFriends() {
-        const { friends } = this.state.preloadCount;
-        VK.Api.call('friends.get', { count: friends, order: "hints", fields: 'photo_100, status' }, (data) => {
+        const { countLoadFriends } = this.state;
+        VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
             localStorage.setItem("user friends", JSON.stringify(data.response));
             this.setState({ friends: JSON.stringify(data.response) });
         });
     }
 
     getNews(id) {
-        const { news } = this.state.preloadCount;
-        VK.Api.call('newsfeed.get', { count: news, filters: "post,photo" }, (data) => {
+        const { countLoadNews } = this.state;
+        VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
             localStorage.setItem("user news", JSON.stringify(data.response));
             this.setState({ news: JSON.stringify(data.response) });
         });
@@ -84,10 +86,6 @@ class App extends Component {
         });
     }
 
-    addPost() {
-        VK.Api.call('wall.post', { message: '123' }, (data) => console.log(data));
-    }
-
     checkLocalStorage(id) {
         if(localStorage.getItem("user status") === null || undefined) {
             this.getStatus(id);
@@ -105,7 +103,6 @@ class App extends Component {
 
     _handleOnClick(e) {
         const { user, preloadCount } = this.state;
-        e.preventDefault();
         const target = e.target;
         const name = target.name;
         let value;
@@ -120,8 +117,10 @@ class App extends Component {
             this.logout();
             break;
             case 'pageNext': value = name;
-            this.setState({ preloadCount: { news: preloadCount.news += 10, friends: preloadCount.friends }})
-            this.getNews(user.id);
+            console.log('next!');
+            break;
+            case 'pagePrev' : value = name;
+            console.log('prev!');
             break;
             default : value = null;
         }
@@ -139,7 +138,6 @@ class App extends Component {
     render() {
         const { isRender, user } = this.state;
         const isLoad = isRender && user;
-        console.log(this.state);
         return(
             <div id="wrapper">
                 { !isRender &&

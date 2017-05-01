@@ -9,6 +9,7 @@
   }
   &__avatar {
     display: block;
+    max-width: 100px;
     @include push--auto();
   }
   &__info {

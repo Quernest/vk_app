@@ -57,7 +57,7 @@ $browser-context: 16;
 
 @mixin for-size($size) {
   @if $size == phone-only {
-    @media (max-width: em(599)) { @content; }
+    @media (max-width: em(543)) { @content; }
   } @else if $size == tablet-portrait-up {
     @media (min-width: em(600)) { @content; }
   } @else if $size == tablet-landscape-up {

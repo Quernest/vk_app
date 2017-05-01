@@ -8,5 +8,6 @@
   -ms-overflow-style: none;
   @include for-size(phone-only) {
     height: 100%;
+    overflow: hidden;
   }
 }
