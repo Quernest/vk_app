@@ -9,8 +9,8 @@ class App extends Component {
         super();
         this.state = { 
             isRender: false,
-            countLoadFriends : 10,
-            countLoadNews : 10
+            countLoadFriends : vk.countLoadFriends,
+            countLoadNews : vk.countLoadNews
         };
         this._handleOnClick = this._handleOnClick.bind(this);
     }
@@ -141,15 +141,15 @@ class App extends Component {
         return(
             <div id="wrapper">
                 { !isRender &&
-                    <AuthPage onClick={this._handleOnClick} /> 
+                  <AuthPage onClick={this._handleOnClick} /> 
                 }
                 { isLoad &&
-                    <div className="container-fluid">
-                        <div className="row">  
-                            <Sidebar data={this.state} onClick={this._handleOnClick} />
-                            <Dashboard data={this.state} onAddPost={this.addPost} onClick={this._handleOnClick} />
-                        </div>
-                    </div>
+                  <div className="container-fluid">
+                      <div className="row">  
+                          <Sidebar data={this.state} onClick={this._handleOnClick} />
+                          <Dashboard data={this.state} onClick={this._handleOnClick} />
+                      </div>
+                  </div>
                 }
             </div>
         );   

@@ -1,4 +1,6 @@
 export const vk = {
   appID: 5975459,
-  appPermissions: 65536+1024+2+8192
+  appPermissions: 65536+1024+2+4+8192+128+131072,
+  countLoadFriends : 10,
+  countLoadNews : 10
 };

@@ -5,7 +5,7 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textareaVal : 'Какой-то текст'
+      textareaVal : ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +29,9 @@ class Dashboard extends Component {
     return(
       <div className="col-sm-7 col-md-7 col-lg-8 col-xl-9 dashboard p-t-1">
           <form onSubmit={this.handleSubmit}>
-              <label htmlFor="textarea">Пост на свою страницу</label>
+              <label htmlFor="textarea">
+                Добавить запись на свою страницу
+              </label>
               <textarea className="form-control" id="textarea" rows="4" value={textareaVal} onChange={this.handleChange} />
               <input type="submit" value="Отправить" className="btn btn-primary m-t-1"/>
               <button type="button" className="btn btn-refresh btn-success m-t-1 m-l-1" name="refresh" onClick={this.props.onClick}>Обновить</button>
