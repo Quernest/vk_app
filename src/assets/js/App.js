@@ -46,6 +46,7 @@ class App extends Component {
 
     logout() {
         VK.Auth.logout();
+        localStorage.clear();
         this.setState({ isRender: false });
     }
 
