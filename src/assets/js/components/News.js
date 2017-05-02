@@ -12,9 +12,9 @@ export default function News(props) {
     profiles = filter(profiles) 
   } = news;
 
-  let arrayUserItems   = [],
-      arrayGroupsItems = [],
-      arrayAllItems    = [];
+  let arrGroupsNews = [],
+      arrUsersNews  = [],
+      arrAllNews    = [];
 
   function filter(object) {
     return object.map((item, index) => item);
@@ -24,7 +24,7 @@ export default function News(props) {
     for(let i = 0; i < profiles.length; i++) {
       for(let j = 0; j < items.length; j++) {
         if(items[j].source_id == profiles[i].uid) {
-          arrayUserItems.push(profiles[i], items[j]);
+          arrUsersNews.push($.extend(items[j], profiles[i]));
         }
       }
     }  
@@ -34,32 +34,52 @@ export default function News(props) {
     for(let i = 0; i < groups.length; i++) {
       for(let j = 0; j < items.length; j++) {
         if(items[j].source_id + groups[i].gid === 0) {
-          arrayGroupsItems.push(groups[i], items[j]);
+          arrGroupsNews.push($.extend(items[j], groups[i]));
         }
       }
     }   
   }
 
+  function sortByDec(arr) {
+    arr.sort(function(a, b) {return b.date - a.date });
+  }
+
   sortUserItems(profiles, items);
   sortGroupsItems(groups, items);
 
-  arrayAllItems = [...arrayGroupsItems, ...arrayUserItems];
+  arrAllNews = [...arrGroupsNews, ...arrUsersNews];
 
-  console.log(arrayAllItems);
+  sortByDec(arrAllNews);
 
   return (
     <div className="news">
-      { arrayAllItems.length > 0 &&
-        arrayAllItems.map((item, index) => {
-          if(item.attachment) { 
+      { arrAllNews.length > 0 && 
+        arrAllNews.map((item, index) => {
+          const { uid, gid, attachment, photo, first_name, last_name, screen_name, name, text } = item;
+          if(attachment) {
             const { attachment, text } = item;
             const { type } = attachment;
             return (
               <div className="news-post" key={index}>
+                <div className="news-post__author" key={index}>
+                  { gid &&
+                    <div>
+                      <a href={`https://vk.com/${screen_name}`}><img src={photo} className="img-circle m-r-1" alt={index} /></a>
+                      <span>{name}</span>
+                    </div>
+                  }
+                  {
+                    uid &&
+                    <div>
+                      <a href={`https://vk.com/id${uid}`}><img src={photo} className="img-circle m-r-1" alt={index} /></a>
+                      <span>{first_name} {last_name}</span>
+                    </div>
+                  }
+                </div>
                 { type == 'video' && 
                   <div>
                     <img src={attachment.video.image_big} className="img-fluid news-post__image" alt={`video-${index}`} />
-                    <strong className="text-danger">Пост с видео (в разработке)</strong>
+                    <span className="news-post__warning">Пост с видео (в разработке)</span>
                     { text && <p className="news-post__text" dangerouslySetInnerHTML={utils.createMarkup(text)}></p> }
                   </div>
                 }
@@ -74,45 +94,38 @@ export default function News(props) {
                   type == 'doc' &&
                   <div>
                     { text && <p className="news-post__text" dangerouslySetInnerHTML={utils.createMarkup(text)}></p> }
-                    <strong className="text-danger">Пост с документами (в разработке)</strong>
+                    <span className="news-post__warning">Пост с документами (в разработке)</span>
                   </div>
                 }
                 {
                   type == 'link' &&
                   <div>
-                    {/*{ description && <p className="news-post__text" dangerouslySetInnerHTML={utils.createMarkup(description)}></p> }
-                    { image_big && <img src={image_big} className="img-fluid news-post__image" alt={`link-image-${index}`} /> }
-                    { url && <a href={url}> { title } </a>}*/}
-                    <strong className="text-danger">Пост со ссылкой (в разработке)</strong>
+                    <span className="news-post__warning">Пост со ссылкой (в разработке)</span>
                   </div>
                 }
               </div>
-            );
-          }
-          if(item.uid || item.gid) {
-            const { photo, first_name, last_name, uid, gid, screen_name, name } = item;
-            return (
-            <div className="news-author" key={index}>
-              { gid &&
-                <div>
-                  <a href={`https://vk.com/${screen_name}`}><img src={photo} className="img-circle m-r-1" alt={index} /></a>
-                  <span>{name}</span>
-                </div>
-              }
-              {
-                uid &&
-                <div>
-                  <a href={`https://vk.com/id${uid}`}><img src={photo} className="img-circle m-r-1" alt={index} /></a>
-                  <span>{first_name} {last_name}</span>
-                </div>
-              }
-            </div>
             )
           }
-          if(item.text) {
-            const { text } = item;
+          if(text && !attachment) {
             return (
-              <p key={index} className="news-post__text" dangerouslySetInnerHTML={utils.createMarkup(text)}></p>
+              <div className="news-post" key={index}>
+                <div className="news-post__author">
+                  { gid &&
+                    <div>
+                      <a href={`https://vk.com/${screen_name}`}><img src={photo} className="img-circle m-r-1" alt={index} /></a>
+                      <span>{name}</span>
+                    </div>
+                  }
+                  {
+                    uid &&
+                    <div>
+                      <a href={`https://vk.com/id${uid}`}><img src={photo} className="img-circle m-r-1" alt={index} /></a>
+                      <span>{first_name} {last_name}</span>
+                    </div>
+                  }
+                  <p key={index} className="news-post__text" dangerouslySetInnerHTML={utils.createMarkup(text)}></p>
+                </div>
+              </div>
             );
           }
         })

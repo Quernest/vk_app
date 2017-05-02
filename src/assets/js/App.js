@@ -58,7 +58,7 @@ class App extends Component {
 
     getFriends() {
         const { countLoadFriends } = this.state;
-        VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
+        VK.Api.call('friends.get', { order: "hints", fields: 'photo_100, status' }, (data) => {
             localStorage.setItem("user friends", JSON.stringify(data.response));
             this.setState({ friends: JSON.stringify(data.response) });
         });

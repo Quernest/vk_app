@@ -11,28 +11,33 @@
 }
 
 .news{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   &-author, &-post, &-post__text {
     padding: .5rem;
   }
-  &-author {
-    margin-top: 1rem;
-    background-color: #fff;
-    border-top-left-radius: $border-radius-base;
-    border-top-right-radius: $border-radius-base;
-  }
   &-post {
+    margin-top: 1rem;
     margin-bottom: 1rem;
     background-color: #fff;
-    border-bottom-left-radius: $border-radius-base;
-    border-bottom-right-radius: $border-radius-base;
+    border-radius: $border-radius-base;
     &__image {
       display: block;
-      @include push--auto();
+      margin: .5rem auto;
     }
     &__text {
       color: #333;
       background-color: #fff;
       margin: 0;
+    }
+    &__author {
+      background-color: #fff;
+    }
+    &__warning {
+      color: red;
+      font-weight: bold;
+      font-size: 1em;
+      padding: .5rem;
     }
   }
 }
