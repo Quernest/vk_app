@@ -4,7 +4,7 @@ $border-color: rgba(#eee, .2);
   padding-top: .5rem;
   padding-bottom: .5rem;
   overflow: hidden;
-  text-align: center;
+  display: none;
   &-item {
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
@@ -16,12 +16,14 @@ $border-color: rgba(#eee, .2);
   }
   @include for-size(phone-only) {
     text-align: left;
-    display: none;
     &-item {
       &__avatar {
           margin: 0;
           max-width: 50px;
       }
     }
+  }
+  @include for-size(tablet-portrait-up) {
+    display: block;
   }
 }

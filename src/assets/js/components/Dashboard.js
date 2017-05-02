@@ -21,13 +21,17 @@ class Dashboard extends Component {
   }
 
   addPost() {
-    VK.Api.call('wall.post', { message: this.state.textareaVal }, (data) => console.log(data));
+    const { textareaVal } = this.state;
+    if(textareaVal) {
+      VK.Api.call('wall.post', { message: this.state.textareaVal }, (data) => console.log(data));
+    }
   }
 
   render() {
     const { textareaVal } = this.state;
+    const { news } = this.props.data;
     return(
-      <div className="col-sm-7 col-md-7 col-lg-8 col-xl-9 dashboard p-t-1">
+      <div className="col-md-8 col-lg-9 dashboard p-t-1">
           <form onSubmit={this.handleSubmit}>
               <label htmlFor="textarea">
                 Добавить запись на свою страницу
@@ -38,7 +42,7 @@ class Dashboard extends Component {
           </form>
             <div className="row">
               <div className="col-lg-12">
-                <News />
+                <News news={ news } />
                 <nav aria-label="...">
                   <ul className="pagination">
                     <li className="page-item disabled">

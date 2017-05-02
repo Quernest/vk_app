@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar.js';
 import Dashboard from './components/Dashboard.js';
 import AuthPage from './components/AuthPage.js';
 import { vk } from './config.js';
+import * as storage from './utils/localStorage.js';
 
 class App extends Component {
     constructor() {
@@ -50,7 +51,7 @@ class App extends Component {
 
     access() {
         VK.Auth.getLoginStatus((response) => {
-            if(response.status === 'connected' && response.session) {
+            if(response.status == 'connected' && response.session) {
                 this.login();
             }
         })
@@ -60,7 +61,7 @@ class App extends Component {
         const { countLoadFriends } = this.state;
         VK.Api.call('friends.get', { order: "hints", fields: 'photo_100, status' }, (data) => {
             localStorage.setItem("user friends", JSON.stringify(data.response));
-            this.setState({ friends: JSON.stringify(data.response) });
+            this.checkLocalStorage();
         });
     }
 
@@ -68,37 +69,45 @@ class App extends Component {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
             localStorage.setItem("user news", JSON.stringify(data.response));
-            this.setState({ news: JSON.stringify(data.response) });
-        });
+            this.checkLocalStorage();
+        });     
     }
 
     getStatus(id) {
         VK.Api.call('status.get', { user_id: id }, (data) => {
             localStorage.setItem('user status', data.response.text);
-            this.setState({ status: data.response.text });
+            this.checkLocalStorage();
         });
     }
 
     getAvatar(id) {
         VK.Api.call('users.get' , { user_id: id, fields: "photo_100" }, (data) => {
             localStorage.setItem('user avatar', data.response[0].photo_100);
-            this.setState({ avatar: data.response[0].photo_100 });
-        });
+            this.checkLocalStorage();
+        });   
     }
 
     checkLocalStorage(id) {
-        if(localStorage.getItem("user status") === null || undefined) {
-            this.getStatus(id);
-        }
-        if(localStorage.getItem("user avatar") === null || undefined) {
+        const avatar  = storage.setAvatar(),
+              news    = storage.setNews(),
+              friends = storage.setFriends(),
+              status  = storage.setStatus();
+
+        if(avatar === null) {
             this.getAvatar(id);
-        }
-        if(localStorage.getItem("user news") === null || undefined) {
+        } else this.setState({ avatar: avatar });
+
+        if(news === null) {
             this.getNews(id);
-        }
-        if(localStorage.getItem("user friends") === null || undefined) {
+        } else this.setState({ news: news });
+
+        if(status === null) {
+            this.getStatus(id);
+        } else this.setState({ status: status });
+
+        if(friends === null) {
             this.getFriends();
-        }
+        } else this.setState({ friends: friends });
     }
 
     _handleOnClick(e) {
@@ -127,11 +136,11 @@ class App extends Component {
     }
 
     refresh() {
-        const { user, preloadCount } = this.state;
+        const { user: { id }, preloadCount } = this.state;
+        this.getStatus(id);
+        this.getAvatar(id);
+        this.getNews(id);
         this.getFriends();
-        this.getStatus(user.id);
-        this.getAvatar(user.id);
-        this.getNews(user.id);
         console.info("updated");
     }
     
@@ -146,7 +155,7 @@ class App extends Component {
                 { isLoad &&
                   <div className="container-fluid">
                       <div className="row">  
-                          <Sidebar data={this.state} onClick={this._handleOnClick} />
+                          <Sidebar   data={this.state} onClick={this._handleOnClick} />
                           <Dashboard data={this.state} onClick={this._handleOnClick} />
                       </div>
                   </div>

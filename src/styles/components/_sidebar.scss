@@ -1,13 +1,13 @@
 .sidebar {
   background-color: $blue;
   color: #eee;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
   &::-webkit-scrollbar { width: 0; }
   -ms-overflow-style: none;
-  @include for-size(phone-only) {
-    height: 100%;
-    overflow: hidden;
+  height: 100%;
+  overflow: hidden;
+  @include for-size(tablet-portrait-up) {
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }

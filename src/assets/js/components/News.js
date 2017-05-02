@@ -3,9 +3,7 @@ import * as utils from '../utils/features.js';
 import * as storage from '../utils/localStorage.js'; 
 
 export default function News(props) {
-
-  const news = storage.setNews();
-  
+  const { news } = props;
   const { 
     items = filter(items), 
     groups = filter(groups), 

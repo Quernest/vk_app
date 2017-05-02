@@ -1,12 +1,12 @@
 .dashboard {
   background-color: #eee;
   color: #333;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  @include for-size(phone-only) {
-    height: 100%;
-    overflow: hidden;
+  height: 100%;
+  overflow: hidden;
+  @include for-size(tablet-portrait-up) {
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
   }
 }
 

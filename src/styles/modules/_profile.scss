@@ -13,9 +13,15 @@
     @include push--auto();
   }
   &__info {
-    display: flex;
-    margin-top: 1rem;
-    justify-content: space-between;
-    align-items: center;
+    @include for-size(phone-only) {
+      div > button[type="button"] {
+        width: 75%;
+      }
+    }
+    @include for-size(tablet-portrait-up) {
+      div > button[type="button"] {
+        padding: .5rem;
+      }
+    }
   }
 }
