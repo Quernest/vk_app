@@ -24,7 +24,6 @@ class News extends Component {
 
   scroll() {
     let container, scrollTo, breakpoint = window.innerWidth;
-    breakpoint > 768 ? ( container = $('.dashboard'), scrollTo = $(".news") ) : ( container = $('html, body'), scrollTo = $(".dashboard") );
     if(breakpoint > 768) {
       container = $('.dashboard');
       container.animate({ scrollTop: 0 }, 750);

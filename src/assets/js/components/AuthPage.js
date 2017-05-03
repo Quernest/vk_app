@@ -15,7 +15,7 @@ const AuthPage = ({ onClick }) => {
         className="btn btn-primary" 
         onClick={ onClick }
       >
-      Авторизоваться
+        Авторизоваться
       </button>
     </div>
   );

@@ -23,10 +23,6 @@ class App extends Component {
         this.access();
     }
 
-    componentWillUnmount() {
-        localStorage.clear();
-    }
-
     init() {
         const { appID } = vk;
         VK.init({ apiId: appID });
@@ -36,20 +32,19 @@ class App extends Component {
     login() {
         const authInfo = (response) => {
             if(response.session) {
-                const { user } = response.session;
-                if(user) {
-                  this.checkLocalStorage(user.id);
-                } 
-                this.setState({ user: user, isRender: true });
+                const { user, user : { id } } = response.session;
+                if (user) {
+                    this.checkLocalStorage(id);
+                    this.setState({ user: user, isRender: true });
+                }
             }
         }
         VK.Auth.login(authInfo, vk.appPermissions);
-        console.info("login");
     }
 
     logout() {
         VK.Auth.logout();
-        localStorage.clear();
+        storage.clear();
         this.setState({ isRender: false });
     }
 
@@ -64,7 +59,7 @@ class App extends Component {
     getFriends() {
         const { countLoadFriends } = this.state;
         VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
-            localStorage.setItem("user_friends", JSON.stringify(data.response));
+            storage.setAsJSON("user_friends", data.response);
             this.setState({ friends: data.response });
         });
     }
@@ -72,51 +67,53 @@ class App extends Component {
     getNews() {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
-            localStorage.setItem("user_news", JSON.stringify(data.response));
+            storage.setAsJSON("user_news", data.response);
             this.setState({ news: data.response });
         });     
     }
 
     getStatus(id) {
         VK.Api.call('status.get', { user_id: id }, (data) => {
-            localStorage.setItem("user_status", data.response.text);
+            storage.set("user_status", data.response.text);
             this.setState({ status: data.response.text });
         });
     }
 
     getAvatar(id) {
-        VK.Api.call('users.get' , { user_id: id, fields: "photo_100" }, (data) => {
-            localStorage.setItem("user_avatar", data.response[0].photo_100);
+        VK.Api.call('users.get', { user_id: id, fields: "photo_100" }, (data) => {
+            storage.set("user_avatar", data.response[0].photo_100);
             this.setState({ avatar: data.response[0].photo_100 });
         });   
     }
 
     checkLocalStorage(id) {
-        if(!storage.get("user_avatar")) {
+        const avatar  = storage.get("user_avatar");
+        const status  = storage.get("user_status");
+
+        const friends = storage.getAsJSON("user_friends");
+        const news    = storage.getAsJSON("user_news");
+
+        if (!avatar) {
             this.getAvatar(id);
         } else {
-            const avatar = localStorage.getItem("user_avatar");
             this.setState({ avatar: avatar });
         }
 
-        if(!storage.get("user_status")) {
+        if (!status) { // need fix
             this.getStatus(id);
         } else {
-            const status = localStorage.getItem("user_status");
             this.setState({ status: status });
         }
-
-        if(!storage.get("user_friends")) {
+        
+        if (!friends) {
             this.getFriends();
         } else {
-            const friends = JSON.parse(localStorage.getItem("user_friends"));
             this.setState({ friends: friends });
         }
 
-        if(!storage.get("user_news")) {
+        if (!news) {
             this.getNews();
         } else {
-            const news = JSON.parse(localStorage.getItem("user_news"));
             this.setState({ news: news });
         }
     }
@@ -156,6 +153,7 @@ class App extends Component {
     render() {
         const { isRender, user, avatar, news, friends } = this.state;
         const isLoad = isRender && user && avatar && news && friends;
+
         return(
             <div id="wrapper">
                 { !isLoad &&
