@@ -4,12 +4,11 @@ import * as storage from '../utils/localStorage.js';
 const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
   
   let friendsCount = friends.length;
-
   if(friends.length >= 10) friends.length = 10;
 
   return (
     <div className="col-md-4 col-lg-3 sidebar">
-        
+  
       <div className="profile m-t-2 m-b-1">
         <h4>{`${user.first_name} ${user.last_name}`}</h4>
         <div className="profile__status">

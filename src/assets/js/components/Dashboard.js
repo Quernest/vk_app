@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import News from './News.js';
 
 class Dashboard extends Component {
@@ -29,7 +30,7 @@ class Dashboard extends Component {
 
   render() {
     const { textareaVal } = this.state;
-    const { news } = this.props.data;
+    const news = this.props.data;
     return(
       <div className="col-md-8 col-lg-9 dashboard">
           <form onSubmit={this.handleSubmit}>
@@ -48,6 +49,11 @@ class Dashboard extends Component {
         </div>
     );
   }
+}
+
+Dashboard.propTypes = {
+  data: PropTypes.object,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Dashboard;
