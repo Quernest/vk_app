@@ -11,7 +11,7 @@ class App extends Component {
         this.state = { 
             isRender: false,
             countLoadFriends : vk.countLoadFriends,
-            countLoadNews : vk.countLoadNews
+            countLoadNews : vk.countLoadNews,
         };
         this._handleOnClick = this._handleOnClick.bind(this);
     }
@@ -66,7 +66,7 @@ class App extends Component {
         });
     }
 
-    getNews(id) {
+    getNews() {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
             localStorage.setItem("user news", JSON.stringify(data.response));
@@ -94,19 +94,19 @@ class App extends Component {
               friends = storage.setFriends(),
               status  = storage.setStatus();
 
-        if(avatar === null) {
+        if(avatar === null || undefined) {
             this.getAvatar(id);
         } else this.setState({ avatar: avatar });
 
-        if(news === null) {
+        if(news === null || undefined) {
             this.getNews(id);
         } else this.setState({ news: news });
 
-        if(status === null) {
+        if(status === null || undefined) {
             this.getStatus(id);
         } else this.setState({ status: status });
 
-        if(friends === null) {
+        if(friends === null || undefined) {
             this.getFriends();
         } else this.setState({ friends: friends });
     }
@@ -127,7 +127,6 @@ class App extends Component {
             this.logout();
             break;
             case 'pageNext': value = name;
-            console.log('next!');
             break;
             case 'pagePrev' : value = name;
             console.log('prev!');
@@ -140,7 +139,7 @@ class App extends Component {
         const { user: { id }, preloadCount } = this.state;
         this.getStatus(id);
         this.getAvatar(id);
-        this.getNews(id);
+        this.getNews();
         this.getFriends();
         console.info("updated");
     }

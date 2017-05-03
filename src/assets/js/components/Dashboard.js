@@ -31,7 +31,7 @@ class Dashboard extends Component {
     const { textareaVal } = this.state;
     const { news } = this.props.data;
     return(
-      <div className="col-md-8 col-lg-9 dashboard p-t-1">
+      <div className="col-md-8 col-lg-9 dashboard">
           <form onSubmit={this.handleSubmit}>
               <label htmlFor="textarea">
                 Добавить запись на свою страницу
@@ -43,19 +43,9 @@ class Dashboard extends Component {
             <div className="row">
               <div className="col-lg-12">
                 <News news={ news } />
-                <nav aria-label="...">
-                  <ul className="pagination">
-                    <li className="page-item disabled">
-                      <a className="page-link" href="#" name="pagePrev" tabIndex="-1">Предыдущая</a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#" name="pageNext" onClick={this.props.onClick}>Следующая</a>
-                    </li>
-                  </ul>
-                </nav>
+              </div>
             </div>
         </div>
-      </div>
     );
   }
 }

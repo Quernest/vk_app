@@ -30,7 +30,7 @@ const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
         </div>
       </div>
       <div className="friends">
-          {
+          { friends.length > 0 &&
             friends.map((item, index) => {
             const { photo_100, first_name, last_name, uid, status } = item;
             return ( <div className="friends-item row" key={index}>
@@ -39,7 +39,7 @@ const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
                       <img src={photo_100} className="img-circle img-fluid" alt="img" />
                     </a> 
                   </div>
-                  <div className="col-lg-8 m-t-2 m-b-2 text-xl-left">
+                  <div className="col-lg-8 m-t-2 m-b-2 text-lg-left">
                     <h5>{`${first_name} ${last_name}`}</h5>
                     <p>{status}</p>
                   </div>

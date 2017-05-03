@@ -26,6 +26,8 @@ let cssConfig = isProd ? cssProd : cssDev;
 
 let bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
 
+if (module.hot)
+  module.hot.accept()
 
 module.exports = {
     entry: { 

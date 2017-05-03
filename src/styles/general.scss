@@ -1,12 +1,3 @@
 #app {
     position: relative;
 }
-
-.link {
-    color: #eee;
-    transition: $transition-base ease-out;
-    &:hover {
-        text-decoration: none;
-        color: #fff;
-    }
-}

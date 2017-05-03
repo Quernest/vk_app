@@ -5,6 +5,7 @@ $border-color: rgba(#eee, .2);
   padding-bottom: .5rem;
   overflow: hidden;
   display: none;
+  text-align: center;
   &-item {
     border-top: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
