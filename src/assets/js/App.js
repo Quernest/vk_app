@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+
 import Sidebar from './components/Sidebar.js';
 import Dashboard from './components/Dashboard.js';
 import AuthPage from './components/AuthPage.js';
-import { vk } from './config.js';
+
 import * as storage from './utils/localStorage.js';
+import { vk } from './config.js';
 
 class App extends Component {
     constructor() {
@@ -61,63 +63,61 @@ class App extends Component {
 
     getFriends() {
         const { countLoadFriends } = this.state;
-        VK.Api.call('friends.get', { order: "hints", fields: 'photo_100, status' }, (data) => {
-            localStorage.setItem("user friends", JSON.stringify(data.response));
-            this.checkLocalStorage();
+        VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
+            localStorage.setItem("user_friends", JSON.stringify(data.response));
+            this.setState({ friends: data.response });
         });
     }
 
     getNews() {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
-            localStorage.setItem("user news", JSON.stringify(data.response));
-            this.checkLocalStorage();
+            localStorage.setItem("user_news", JSON.stringify(data.response));
+            this.setState({ news: data.response });
         });     
     }
 
     getStatus(id) {
         VK.Api.call('status.get', { user_id: id }, (data) => {
-            localStorage.setItem("user status", data.response.text);
-            this.checkLocalStorage();
+            localStorage.setItem("user_status", data.response.text);
+            this.setState({ status: data.response.text });
         });
     }
 
     getAvatar(id) {
         VK.Api.call('users.get' , { user_id: id, fields: "photo_100" }, (data) => {
-            localStorage.setItem("user avatar", data.response[0].photo_100);
-            this.checkLocalStorage();
+            localStorage.setItem("user_avatar", data.response[0].photo_100);
+            this.setState({ avatar: data.response[0].photo_100 });
         });   
     }
 
     checkLocalStorage(id) {
-        let avatar, status, news, friends;
-        
-        if(typeof localStorage["user avatar"] == 'undefined' || localStorage["user avatar"] == null) {
+        if(!storage.get("user_avatar")) {
             this.getAvatar(id);
         } else {
-            avatar = localStorage["user avatar"];
+            const avatar = localStorage.getItem("user_avatar");
             this.setState({ avatar: avatar });
         }
 
-        if(typeof localStorage["user status"] == 'undefined' || localStorage["user status"] == null || localStorage["user status"] == "undefined") {
+        if(!storage.get("user_status")) {
             this.getStatus(id);
         } else {
-            status = localStorage["user status"];
+            const status = localStorage.getItem("user_status");
             this.setState({ status: status });
         }
 
-        if(typeof localStorage["user news"] == 'undefined' || localStorage["user news"] == null) {
-            this.getNews();
-        } else {
-            news = JSON.parse(localStorage["user news"]);
-            this.setState({ news: news });
-        }
-
-        if(typeof localStorage["user friends"] == 'undefined' || localStorage["user friends"] == null) {
+        if(!storage.get("user_friends")) {
             this.getFriends();
         } else {
-            friends = JSON.parse(localStorage["user friends"]);
+            const friends = JSON.parse(localStorage.getItem("user_friends"));
             this.setState({ friends: friends });
+        }
+
+        if(!storage.get("user_news")) {
+            this.getNews();
+        } else {
+            const news = JSON.parse(localStorage.getItem("user_news"));
+            this.setState({ news: news });
         }
     }
 
@@ -154,7 +154,7 @@ class App extends Component {
     }
     
     render() {
-        const { isRender, user, friends, avatar, news } = this.state;
+        const { isRender, user, avatar, news, friends } = this.state;
         const isLoad = isRender && user && avatar && news && friends;
         return(
             <div id="wrapper">

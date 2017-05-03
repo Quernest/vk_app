@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import * as utils from '../utils/features.js';
-import * as storage from '../utils/localStorage.js';
 
 class News extends Component {
   constructor(props) {

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import * as storage from '../utils/localStorage.js';
 
 const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
   
   let friendsCount = friends.length;
+  
   if(friends.length >= 10) friends.length = 10;
 
   return (
