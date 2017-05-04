@@ -61,38 +61,42 @@ class App extends Component {
     getFriends() {
         const { countLoadFriends } = this.state;
         VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
-            console.log("friends ", data);
-            storage.setAsJSON("user_friends", data.response);
-            this.setState({ friends: data.response });
-            return data;
+            if(data.response) {
+                storage.setAsJSON("user_friends", data.response);
+                this.setState({ friends: data.response });
+                Promise.resolve(data);
+            }
         });
     }
 
     getNews() {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
-            console.log("news ", data);
-            storage.setAsJSON("user_news", data.response);
-            this.setState({ news: data.response });
-            return data;
+            if(data.response) {
+                storage.setAsJSON("user_news", data.response);
+                this.setState({ news: data.response });
+                Promise.resolve(data);
+            }
         });     
     }
 
     getStatus(id) {
         VK.Api.call('status.get', { user_id: id }, (data) => {
-            console.log("status ", data);
-            storage.set("user_status", data.response.text);
-            this.setState({ status: data.response.text });
-            return data;
+            if(data.response) {
+                storage.set("user_status", data.response.text);
+                this.setState({ status: data.response.text });
+                Promise.resolve(data);
+            }
         });
     }
 
     getAvatar(id) {
         VK.Api.call('users.get', { user_id: id, fields: "photo_100" }, (data) => {
-            console.log("avatar ", data);
-            storage.set("user_avatar", data.response[0].photo_100);
-            this.setState({ avatar: data.response[0].photo_100});
-            return data;
+            if(data.response) {
+                storage.set("user_avatar", data.response[0].photo_100);
+                this.setState({ avatar: data.response[0].photo_100});
+                Promise.resolve(data);
+            } 
         });   
     }
 
@@ -147,16 +151,13 @@ class App extends Component {
     }
 
     refresh() {
-        const { user: { id }, canRefresh } = this.state;
-        this.setState({ canRefresh: true });
+        const { user: { id }, canRefresh, avatar, friends, news, status } = this.state;
+        this.setState({ canRefresh: false });
         Promise.all([this.getStatus(id), this.getAvatar(id), this.getNews(), this.getFriends()])
-        .then(() => {
-            console.info("updated!");
+        .then((data) => {
+            console.info("updated!", data);
             this.setState({ canRefresh: true });
-        }, () => {
-            console.error("update error");
-            this.setState({ canRefresh: false });
-        })
+        }).catch((err) => console.error(err))
     }
     
     render() {
