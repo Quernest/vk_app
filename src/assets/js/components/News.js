@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import * as utils from '../utils/features.js';
 
 class News extends Component {
@@ -107,8 +108,9 @@ class News extends Component {
     });
 
     const renderTodos = currentTodos.map((item, index) => {
+
     const { uid, gid, attachment, photo, first_name, last_name, screen_name, name, text } = item;
-    if(text && !attachment) {
+    if (text && !attachment) {
       return (
         <div 
           className="news-post" 
@@ -153,7 +155,7 @@ class News extends Component {
         </div>
       );
     }
-    if(attachment) {
+    if (attachment) {
       const { attachment, text } = item;
       const { type } = attachment;
       return (
@@ -275,6 +277,10 @@ class News extends Component {
       </ul>
     </div> );
   }
+}
+
+News.propTypes = {
+  news : PropTypes.object.isRequired
 }
 
 export default News;

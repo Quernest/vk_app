@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as API from '../core/API.js';
 import News from './News.js';
 
 class Dashboard extends Component {
@@ -18,28 +19,44 @@ class Dashboard extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.addPost();
-  }
-
-  addPost() {
     const { textareaVal } = this.state;
-    if(textareaVal) {
-      VK.Api.call('wall.post', { message: this.state.textareaVal }, (data) => console.log(data));
+    if (textareaVal) {
+      API.addPost(textareaVal);
     }
   }
 
   render() {
     const { textareaVal } = this.state;
-    const news = this.props.data;
+    const { data: news, canRefresh } = this.props; 
     return(
-      <div className="col-md-8 col-lg-9 dashboard">
-          <form onSubmit={this.handleSubmit}>
-              <label htmlFor="textarea">
+      <div 
+      className="col-md-8 col-lg-9 dashboard">
+          <form 
+            onSubmit={this.handleSubmit}>
+              <label 
+                htmlFor="textarea">
                 Добавить запись на свою страницу
               </label>
-              <textarea className="form-control" id="textarea" rows="4" value={textareaVal} onChange={this.handleChange} />
-              <input type="submit" value="Отправить" className="btn btn-primary m-t-1"/>
-              <button type="button" className="btn btn-refresh btn-success m-t-1 m-l-1" name="refresh" onClick={this.props.onClick}>Обновить</button>
+              <textarea 
+                className="form-control" 
+                id="textarea" 
+                rows="4" 
+                value={textareaVal} 
+                onChange={this.handleChange} 
+              />
+              <input 
+                type="submit" 
+                value="Отправить" 
+                className="btn btn-primary m-t-1"
+              />
+              <button 
+                type="button" 
+                className={canRefresh ? "btn btn-refresh btn-success m-t-1 m-l-1" : "btn btn-refresh btn-success m-t-1 m-l-1 disabled"} 
+                name="refresh" 
+                onClick={canRefresh && this.props.onClick}
+              >
+                Обновить
+              </button>
           </form>
             <div className="row">
               <div className="col-lg-12">
@@ -52,8 +69,9 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  data: PropTypes.object,
-  onClick: PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  canRefresh: PropTypes.bool.isRequired
 }
 
 export default Dashboard;

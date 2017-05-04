@@ -1,9 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
-  
-  let friendsCount = friends.length;
-  
+
   if(friends.length >= 10) friends.length = 10;
 
   return (
@@ -20,7 +19,7 @@ const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
         <div className="row profile__info m-t-1">
           <div className="col-sm-6 text-sm-left">
             <button className="btn btn-success m-t-1 m-b-1" type="button">
-              Мои друзья: <strong>{friendsCount}</strong> 
+              Мои друзья
             </button>
           </div>
           <div className="col-sm-6 text-sm-right">
@@ -49,6 +48,11 @@ const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
       </div>
     </div>
   );
+}
+
+Sidebar.propTypes = {
+  data : PropTypes.object.isRequired,
+  onClick : PropTypes.func.isRequired
 }
 
 export default Sidebar;
