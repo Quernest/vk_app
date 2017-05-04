@@ -17,6 +17,7 @@ class App extends Component {
             countLoadFriends : vk.countLoadFriends,
             countLoadNews : vk.countLoadNews
         };
+        
         this._handleOnClick = this._handleOnClick.bind(this);
     }
 
@@ -64,7 +65,6 @@ class App extends Component {
             if(data.response) {
                 storage.setAsJSON("user_friends", data.response);
                 this.setState({ friends: data.response });
-                Promise.resolve(data);
             }
         });
     }
@@ -75,7 +75,6 @@ class App extends Component {
             if(data.response) {
                 storage.setAsJSON("user_news", data.response);
                 this.setState({ news: data.response });
-                Promise.resolve(data);
             }
         });     
     }
@@ -85,7 +84,6 @@ class App extends Component {
             if(data.response) {
                 storage.set("user_status", data.response.text);
                 this.setState({ status: data.response.text });
-                Promise.resolve(data);
             }
         });
     }
@@ -95,8 +93,7 @@ class App extends Component {
             if(data.response) {
                 storage.set("user_avatar", data.response[0].photo_100);
                 this.setState({ avatar: data.response[0].photo_100});
-                Promise.resolve(data);
-            } 
+            }
         });   
     }
 
@@ -151,13 +148,9 @@ class App extends Component {
     }
 
     refresh() {
-        const { user: { id }, canRefresh, avatar, friends, news, status } = this.state;
-        this.setState({ canRefresh: false });
-        Promise.all([this.getStatus(id), this.getAvatar(id), this.getNews(), this.getFriends()])
-        .then((data) => {
-            console.info("updated!", data);
-            this.setState({ canRefresh: true });
-        }).catch((err) => console.error(err))
+        const { user: { id }, canRefresh } = this.state;
+        this.getStatus(id), this.getAvatar(id), this.getNews(), this.getFriends();
+        console.info("updated");
     }
     
     render() {

@@ -24,8 +24,11 @@ class News extends Component {
   }
 
   scroll() {
-    let container, scrollTo, breakpoint = window.innerWidth;
-    if(breakpoint > 768) {
+    let breakpoint = window.innerWidth;
+    let container; 
+    let scrollTo; 
+
+    if (breakpoint > 768) {
       container = $('.dashboard');
       container.animate({ scrollTop: 0 }, 750);
     } else {
@@ -38,55 +41,27 @@ class News extends Component {
   }
 
   render() {
-    const { 
-      items = filter(items), 
-      groups = filter(groups), 
-      profiles = filter(profiles) 
-    } = this.props.news;
+    let { items, groups, profiles } = this.props.news;
+
+    items    = utils.map(items);
+    groups   = utils.map(groups);
+    profiles = utils.map(profiles);
+
+    let arrGroupsNews = [];
+    let arrUsersNews  = [];
+    let arrAllNews    = [];
+    let pageNumbers   = [];
 
     const { currentPage, todosPerPage } = this.state;
     const indexOfLastTodo = currentPage * todosPerPage;
     const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-    const pageNumbers = [];
 
-    let arrGroupsNews = [],
-        arrUsersNews  = [],
-        arrAllNews    = [];
-
-    function filter(object) {
-      return object.map((item, index) => item);
-    }
-
-    function sortUserItems(profiles, items) {
-      for(let i = 0; i < profiles.length; i++) {
-        for(let j = 0; j < items.length; j++) {
-          if(items[j].source_id == profiles[i].uid) {
-            arrUsersNews.push($.extend(items[j], profiles[i]));
-          }
-        }
-      }  
-    }
-
-    function sortGroupsItems(groups, items) {
-      for(let i = 0; i < groups.length; i++) {
-        for(let j = 0; j < items.length; j++) {
-          if(items[j].source_id + groups[i].gid === 0) {
-            arrGroupsNews.push($.extend(items[j], groups[i]));
-          }
-        }
-      }   
-    }
-
-    function sortByDec(arr) {
-      arr.sort((a, b) => b.date - a.date);
-    }
-
-    sortUserItems(profiles, items);
-    sortGroupsItems(groups, items);
+    utils.sortUserItems(profiles, items, arrUsersNews);
+    utils.sortGroupsItems(groups, items, arrGroupsNews);
 
     arrAllNews = [...arrGroupsNews, ...arrUsersNews];
 
-    sortByDec(arrAllNews);
+    utils.sortByDec(arrAllNews);
 
     const currentTodos = arrAllNews.slice(indexOfFirstTodo, indexOfLastTodo);
 
@@ -109,166 +84,167 @@ class News extends Component {
 
     const renderTodos = currentTodos.map((item, index) => {
 
-    const { uid, gid, attachment, photo, first_name, last_name, screen_name, name, text } = item;
-    if (text && !attachment) {
-      return (
-        <div 
-          className="news-post" 
-          key={index}
-        >
-          <div className="news-post__author">
-            { gid &&
-              <div>
-                <a 
-                  href={`https://vk.com/${screen_name}`}
-                >
-                <img 
-                  src={photo} 
-                  className="img-circle m-r-1" 
-                  alt={index} 
-                />
-                </a>
-                <span>{name}</span>
-              </div>
-            }
-            {
-              uid &&
-              <div>
-                <a 
-                  href={`https://vk.com/id${uid}`}
-                >
-                <img 
-                  src={photo} 
-                  className="img-circle m-r-1" 
-                  alt={index} 
-                />
-                </a>
-                <span>{first_name} {last_name}</span>
-              </div>
-            }
-            <p 
-              key={index} 
-              className="news-post__text" 
-              dangerouslySetInnerHTML={utils.createMarkup(text)}
-            ></p>
-          </div>
-        </div>
-      );
-    }
-    if (attachment) {
-      const { attachment, text } = item;
-      const { type } = attachment;
-      return (
-        <div 
-          className="news-post" 
-          key={index}
-        >
+      const { uid, gid, attachment, photo, first_name, last_name, screen_name, name, text } = item;
+
+      if (text && !attachment) {
+        return (
           <div 
-            className="news-post__author" 
+            className="news-post" 
             key={index}
           >
+            <div className="news-post__author">
+              { gid &&
+                <div>
+                  <a 
+                    href={`https://vk.com/${screen_name}`}
+                  >
+                  <img 
+                    src={photo} 
+                    className="img-circle m-r-1" 
+                    alt={index} 
+                  />
+                  </a>
+                  <span>{name}</span>
+                </div>
+              }
+              {
+                uid &&
+                <div>
+                  <a 
+                    href={`https://vk.com/id${uid}`}
+                  >
+                  <img 
+                    src={photo} 
+                    className="img-circle m-r-1" 
+                    alt={index} 
+                  />
+                  </a>
+                  <span>{first_name} {last_name}</span>
+                </div>
+              }
+              <p 
+                key={index} 
+                className="news-post__text" 
+                dangerouslySetInnerHTML={utils.createMarkup(text)}
+              ></p>
+            </div>
+          </div>
+        );
+      }
+      if (attachment) {
+        const { attachment, text } = item;
+        const { type } = attachment;
+        return (
+          <div 
+            className="news-post" 
+            key={index}
+          >
+            <div 
+              className="news-post__author" 
+              key={index}
+            >
+              { 
+                gid &&
+                <div>
+                  <a 
+                    href={`https://vk.com/${screen_name}`}
+                  >
+                  <img 
+                    src={photo} 
+                    className="img-circle m-r-1" 
+                    alt={index} 
+                  />
+                  </a>
+                  <span>{name}</span>
+                </div>
+              }
+              {
+                uid &&
+                <div>
+                  <a 
+                    href={`https://vk.com/id${uid}`}
+                  >
+                  <img 
+                    src={photo} 
+                    className="img-circle m-r-1" 
+                    alt={index} 
+                  />
+                  </a>
+                  <span>{first_name} {last_name}</span>
+                </div>
+              }
+            </div>
             { 
-              gid &&
+              type == 'video' && 
               <div>
-                <a 
-                  href={`https://vk.com/${screen_name}`}
-                >
                 <img 
-                  src={photo} 
-                  className="img-circle m-r-1" 
-                  alt={index} 
+                  src={attachment.video.image_big} 
+                  className="img-fluid news-post__image" 
+                  alt={`video-${index}`} 
                 />
-                </a>
-                <span>{name}</span>
+                <span 
+                  className="news-post__warning"
+                >
+                  Пост с видео (в разработке)
+                </span>
+                { text && 
+                  <p 
+                    className="news-post__text" 
+                    dangerouslySetInnerHTML={utils.createMarkup(text)}
+                  >
+                  </p> 
+                }
               </div>
             }
             {
-              uid &&
+              type == 'photo' &&
               <div>
-                <a 
-                  href={`https://vk.com/id${uid}`}
-                >
                 <img 
-                  src={photo} 
-                  className="img-circle m-r-1" 
-                  alt={index} 
+                  src={attachment.photo.src_big} 
+                  className="img-fluid news-post__image" 
+                  alt={`news-post-img-${index}`} 
                 />
-                </a>
-                <span>{first_name} {last_name}</span>
+                { text && 
+                  <p 
+                    className="news-post__text" 
+                    dangerouslySetInnerHTML={utils.createMarkup(text)}
+                  >
+                  </p> 
+                }
+              </div>
+            }
+            {
+              type == 'doc' &&
+              <div>
+                { text && 
+                  <p 
+                    className="news-post__text" 
+                    dangerouslySetInnerHTML={utils.createMarkup(text)}
+                  >
+                  </p> 
+                }
+                <span 
+                  className="news-post__warning"
+                >
+                  Пост с документами (в разработке)
+                </span>
+              </div>
+            }
+            {
+              type == 'link' &&
+              <div>
+                <span 
+                  className="news-post__warning"
+                >
+                  Пост со ссылкой (в разработке)
+                </span>
               </div>
             }
           </div>
-          { 
-            type == 'video' && 
-            <div>
-              <img 
-                src={attachment.video.image_big} 
-                className="img-fluid news-post__image" 
-                alt={`video-${index}`} 
-              />
-              <span 
-                className="news-post__warning"
-              >
-                Пост с видео (в разработке)
-              </span>
-              { text && 
-                <p 
-                  className="news-post__text" 
-                  dangerouslySetInnerHTML={utils.createMarkup(text)}
-                >
-                </p> 
-              }
-            </div>
-          }
-          {
-            type == 'photo' &&
-            <div>
-              <img 
-                src={attachment.photo.src_big} 
-                className="img-fluid news-post__image" 
-                alt={`news-post-img-${index}`} 
-              />
-              { text && 
-                <p 
-                  className="news-post__text" 
-                  dangerouslySetInnerHTML={utils.createMarkup(text)}
-                >
-                </p> 
-              }
-            </div>
-          }
-          {
-            type == 'doc' &&
-            <div>
-              { text && 
-                <p 
-                  className="news-post__text" 
-                  dangerouslySetInnerHTML={utils.createMarkup(text)}
-                >
-                </p> 
-              }
-              <span 
-                className="news-post__warning"
-              >
-                Пост с документами (в разработке)
-              </span>
-            </div>
-          }
-          {
-            type == 'link' &&
-            <div>
-              <span 
-                className="news-post__warning"
-              >
-                Пост со ссылкой (в разработке)
-              </span>
-            </div>
-          }
-        </div>
-      )
+        )
+      }
     }
-  });
-
+  );
   return (
     <div className="news">
       {arrAllNews.length > 0 && renderTodos}

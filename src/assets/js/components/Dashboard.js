@@ -9,6 +9,7 @@ class Dashboard extends Component {
     this.state = {
       textareaVal : ''
     };
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -30,7 +31,7 @@ class Dashboard extends Component {
     const { data: news, canRefresh } = this.props; 
     return(
       <div 
-      className="col-md-8 col-lg-9 dashboard">
+        className="col-md-8 col-lg-9 dashboard">
           <form 
             onSubmit={this.handleSubmit}>
               <label 

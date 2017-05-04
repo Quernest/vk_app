@@ -3,5 +3,5 @@
 export function addPost(params) {
   VK.Api.call("wall.post", {
     message: params,
-  }, data => data);
+  }, function(data) { return data });
 }
