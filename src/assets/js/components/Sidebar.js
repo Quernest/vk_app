@@ -9,7 +9,7 @@ const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
     <div className="col-md-4 col-lg-3 sidebar">
   
       <div className="profile m-t-2 m-b-1">
-        <h4>{`${user.first_name} ${user.last_name}`}</h4>
+        <h3>{`${user.first_name} ${user.last_name}`}</h3>
         <div className="profile__status">
           <p>{status}</p>
         </div>
@@ -38,7 +38,7 @@ const Sidebar = ({ data, data: { user, status, friends, avatar }, onClick}) => {
                     </a> 
                   </div>
                   <div className="col-lg-8 m-t-2 m-b-2 text-lg-left">
-                    <h5>{`${first_name} ${last_name}`}</h5>
+                    <h4>{`${first_name} ${last_name}`}</h4>
                     <p>{status}</p>
                   </div>
                 </div>
