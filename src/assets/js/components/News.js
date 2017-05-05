@@ -24,20 +24,8 @@ class News extends Component {
   }
 
   scroll() {
-    let breakpoint = window.innerWidth;
-    let container; 
-    let scrollTo; 
-
-    if (breakpoint > 768) {
-      container = $('.dashboard');
-      container.animate({ scrollTop: 0 }, 750);
-    } else {
-      container = $('html, body'); 
-      scrollTo  = $(".dashboard");
-      container.animate({
-        scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-      }, 750);
-    }
+    let container = $("html, body"); 
+    container.animate({ scrollTop: 0 }, "slow"); 
   }
 
   render() {
