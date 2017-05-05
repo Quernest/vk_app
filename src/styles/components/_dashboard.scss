@@ -1,14 +1,9 @@
 .dashboard {
   background-color: #eee;
-  padding-top: .5rem;
+  padding: 1rem;
   color: #333;
+  overflow-x: hidden;
   height: 100%;
-  overflow: hidden;
-  @include for-size(tablet-portrait-up) {
-    height: 100vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
 }
 
 .news{

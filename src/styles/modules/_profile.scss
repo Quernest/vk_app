@@ -13,14 +13,13 @@
     @include push--auto();
   }
   &__info {
-    @include for-size(phone-only) {
-      div > button[type="button"] {
-        width: 75%;
-      }
+    div > button[type="button"] {
+      width: 75%;
     }
     @include for-size(tablet-portrait-up) {
       div > button[type="button"] {
         padding: .5rem;
+        width: 100%;
       }
     }
   }

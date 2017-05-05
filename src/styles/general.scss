@@ -1,7 +1,58 @@
 body {
     font-family: "RobotoCondensed-Regular", sans-serif !important;
+    overflow-x: hidden;
 }
 
 #app {
     position: relative;
+}
+
+#wrapper {
+    padding-left: 0;
+    transition: $transition-base ease-out;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#wrapper.toggled .sidebar {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 0;
+    }
+
+    #wrapper.toggled {
+        padding-left: 320px;
+    }
+
+    .sidebar {
+        width: 0;
+    }
+
+    #wrapper.toggled .sidebar {
+        width: 320px;
+    }
+
+    #page-content-wrapper {
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
 }

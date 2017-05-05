@@ -6,6 +6,7 @@ import AuthPage from './components/AuthPage.js';
 import API from './core/API.js';
 
 import * as storage from './utils/localStorage.js';
+import * as utils from './utils/features.js';
 import { vk } from './config.js';
 
 class App extends Component {
@@ -15,7 +16,8 @@ class App extends Component {
             isRender: false,
             canRefresh: true,
             countLoadFriends : vk.countLoadFriends,
-            countLoadNews : vk.countLoadNews
+            countLoadNews : vk.countLoadNews,
+            sidebarToggle : false
         };
         
         this._handleOnClick = this._handleOnClick.bind(this);
@@ -130,7 +132,7 @@ class App extends Component {
     }
 
     _handleOnClick(e) {
-        const { user } = this.state;
+        const { user, sidebarToggle } = this.state;
         const { name } = e.target
         let value;
         switch(name) {
@@ -143,6 +145,8 @@ class App extends Component {
             case 'logout': value = name;
             this.logout();
             break;
+            case 'toggle' : value = name;
+            utils.sidebarToggle();
             default : value = null;
         }
     }
@@ -158,15 +162,15 @@ class App extends Component {
         const isLoad = isRender && user && avatar && news && friends;
 
         return(
-            <div id="wrapper">
+            <div>
                 { !isLoad &&
                   <AuthPage onClick={this._handleOnClick} /> 
                 }
                 { isLoad &&
-                  <div className="container-fluid">
-                      <div className="row">  
-                          <Sidebar   data={this.state} onClick={this._handleOnClick} />
-                          <Dashboard data={news} canRefresh={canRefresh} onClick={this._handleOnClick} />
+                  <div id="wrapper">
+                      <Sidebar data={this.state} onClick={this._handleOnClick} />
+                      <div id="page-content-wrapper">
+                          <Dashboard data={this.state} onClick={this._handleOnClick} />
                       </div>
                   </div>
                 }

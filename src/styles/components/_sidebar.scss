@@ -1,13 +1,15 @@
 .sidebar {
+  position: fixed;
   background-color: $blue;
   color: #eee;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
   &::-webkit-scrollbar { width: 0; }
   -ms-overflow-style: none;
-  height: 100%;
-  overflow: hidden;
-  @include for-size(tablet-portrait-up) {
-    height: 100vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+  padding: 1rem;
+  left: 250px;
+  width: 0;
+  margin-left: -250px;
+  transition: $transition-base ease;
 }

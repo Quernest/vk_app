@@ -29,3 +29,7 @@ export function sortGroupsItems(groups, items, array) {
     }
   }   
 }
+
+export function sidebarToggle() {
+  $("#wrapper").toggleClass("toggled");
+}
