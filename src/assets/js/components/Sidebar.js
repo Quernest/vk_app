@@ -42,12 +42,12 @@ class Sidebar extends Component {
       const { photo_100, first_name, last_name, uid, status } = item;
       return ( 
           <div className="friends-item row" key={index}>
-            <div className="col-lg-4 m-t-2 m-b-2">
+            <div className="col-md-4 m-t-2 m-b-2">
               <a href={`https://vk.com/id${uid}`} className="friends-item__avatar">
                 <img src={photo_100} className="img-circle img-fluid" alt="img" />
               </a> 
             </div>
-            <div className="col-lg-8 m-t-2 m-b-2 text-lg-left">
+            <div className="col-md-8 m-t-2 m-b-2 text-md-left">
               <h4>{`${first_name} ${last_name}`}</h4>
               <p>{status}</p>
             </div>
