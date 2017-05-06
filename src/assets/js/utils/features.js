@@ -30,6 +30,7 @@ export function sortGroupsItems(groups, items, array) {
   }   
 }
 
-export function sidebarToggle() {
-  $("#wrapper").toggleClass("toggled");
+export function sidebarToggle(tag) {
+  const wrapper = $(`#${tag}`);
+  wrapper.toggleClass("toggled");
 }

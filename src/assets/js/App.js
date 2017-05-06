@@ -7,6 +7,7 @@ import API from './core/API.js';
 
 import * as storage from './utils/localStorage.js';
 import * as utils from './utils/features.js';
+import { BREAKPOINT } from './constants/constants.js';
 import { vk } from './config.js';
 
 class App extends Component {
@@ -16,16 +17,21 @@ class App extends Component {
             isRender: false,
             canRefresh: true,
             countLoadFriends : vk.countLoadFriends,
-            countLoadNews : vk.countLoadNews,
-            sidebarToggle : false
+            countLoadNews : vk.countLoadNews
         };
         
         this._handleOnClick = this._handleOnClick.bind(this);
+        this._handleOnResize = this._handleOnResize.bind(this);
     }
 
     componentDidMount() {
+        window.addEventListener("resize", this._handleOnResize);
         this.init();
         this.access();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this._handleOnResize);
     }
 
     init() {
@@ -146,9 +152,16 @@ class App extends Component {
             this.logout();
             break;
             case 'toggle' : value = name;
-            utils.sidebarToggle();
+            utils.sidebarToggle("wrapper");
             default : value = null;
         }
+    }
+
+    _handleOnResize(e) {
+        this.setState({
+            windowHeight: window.innerHeight,
+            windowWidth: window.innerWidth
+        });
     }
 
     refresh() {
@@ -160,14 +173,14 @@ class App extends Component {
     render() {
         const { isRender, canRefresh, user, avatar, news, friends } = this.state;
         const isLoad = isRender && user && avatar && news && friends;
-
+        const ww = window.innerWidth;
         return(
             <div>
                 { !isLoad &&
                   <AuthPage onClick={this._handleOnClick} /> 
                 }
                 { isLoad &&
-                  <div id="wrapper">
+                  <div id="wrapper" className={ww > BREAKPOINT ? "toggled" : ""}>
                       <Sidebar data={this.state} onClick={this._handleOnClick} />
                       <div id="page-content-wrapper">
                           <Dashboard data={this.state} onClick={this._handleOnClick} />

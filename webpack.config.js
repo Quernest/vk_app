@@ -84,7 +84,7 @@ module.exports = {
         open: true
     },
     plugins: [new HtmlWebpackPlugin({
-        title: 'html',
+        title: 'VK API Application',
         minify: {
             collapseWhitespace: true
         },

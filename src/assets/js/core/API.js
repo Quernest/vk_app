@@ -1,7 +1,7 @@
 // VK API requests will be here
 
-export function addPost(params) {
+export function addPost(text) {
   VK.Api.call("wall.post", {
-    message: params,
+    message: text,
   }, function(data) { return data });
 }

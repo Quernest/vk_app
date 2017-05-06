@@ -13,3 +13,45 @@
   margin-left: -250px;
   transition: $transition-base ease;
 }
+
+#wrapper {
+    padding-left: 0;
+    transition: $transition-base ease-out;
+    &.toggled {
+        padding-left: 250px;
+        .sidebar {
+            width: 250px;
+        }
+        #page-content-wrapper {
+            position: absolute;
+            margin-right: -250px;
+        }
+    }
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+}
+
+@include for-size(tablet-portrait-up) {
+    #wrapper {
+        padding-left: 0;
+        &.toggled {
+            padding-left: 380px;
+            .sidebar {
+                width: 380px;
+            }
+            #page-content-wrapper {
+                position: relative;
+                margin-right: 0;
+            }
+        }
+    }
+    .sidebar {
+        width: 0;
+    }
+    #page-content-wrapper {
+        position: relative;
+    }
+}

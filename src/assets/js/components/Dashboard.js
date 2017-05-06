@@ -32,7 +32,14 @@ class Dashboard extends Component {
     return( !sidebarToggle &&
       <div 
         className="dashboard">
-          <button className="btn m-b-1" id="menu-toggle" name="toggle" onClick={onClick}>&#9776;</button>
+          <button 
+            className="btn m-b-1" 
+            id="menu-toggle" 
+            name="toggle" 
+            onClick={onClick}
+          >
+            &#9776;
+          </button>
           <form 
             onSubmit={this.handleSubmit}>
               <label 

@@ -57,7 +57,15 @@ class Sidebar extends Component {
 
     return (
       <div className="sidebar">
-        <button className="btn btn-danger m-b-1" id="menu-toggle" name="toggle" onClick={onClick}>&times;</button>
+        <a 
+          href="#" 
+          className="btn-close" 
+          id="menu-toggle" 
+          name="toggle" 
+          onClick={onClick}
+          >
+            &times;
+        </a>
         <div className="profile m-t-2 m-b-1">
           <h3>{`${user.first_name} ${user.last_name}`}</h3>
           <div className="profile__status">
