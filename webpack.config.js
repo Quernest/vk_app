@@ -31,7 +31,7 @@ if (module.hot)
 
 module.exports = {
     entry: { 
-        app: './src/assets/js/index.js', 
+        app: './src/index.js', 
         bootstrap: bootstrapConfig
     },
     output: {
@@ -89,7 +89,7 @@ module.exports = {
             collapseWhitespace: true
         },
         hash: true,
-        template: './src/assets/index.html'
+        template: './index.html'
     }),
     new ExtractTextPlugin({
         filename: 'css/[name].css',
@@ -116,9 +116,9 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new PurifyCSSPlugin({
-        paths: glob.sync(path.join(__dirname, 'src/**/**/*.*')),
-        minimize: true
-    }),
+    // new PurifyCSSPlugin({
+    //     paths: glob.sync(path.join(__dirname, 'src/**/**/*.*')),
+    //     minimize: true
+    // }),
     ]
 }

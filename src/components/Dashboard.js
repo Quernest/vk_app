@@ -28,10 +28,9 @@ class Dashboard extends Component {
 
   render() {
     const { textareaVal } = this.state;
-    const { data: { news, sidebarToggle, canRefresh }, onClick } = this.props; 
-    return( !sidebarToggle &&
-      <div 
-        className="dashboard">
+    const { data: { news }, onClick } = this.props; 
+    return(
+      <div className="dashboard" id="page-content-wrapper">
           <button 
             className="btn m-b-1" 
             id="menu-toggle" 
@@ -60,9 +59,9 @@ class Dashboard extends Component {
               />
               <button 
                 type="button" 
-                className={canRefresh ? "btn btn-refresh btn-success m-t-1 m-l-1" : "btn btn-refresh btn-success m-t-1 m-l-1 disabled"} 
+                className="btn btn-refresh btn-success m-t-1 m-l-1" 
                 name="refresh" 
-                onClick={canRefresh && onClick}
+                onClick={onClick}
               >
                 Обновить
               </button>

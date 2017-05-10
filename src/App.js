@@ -1,33 +1,35 @@
 import React, { Component } from 'react';
 
-import Sidebar from './components/Sidebar.js';
-import Dashboard from './components/Dashboard.js';
-import AuthPage from './components/AuthPage.js';
-import API from './core/API.js';
+// containers
+import Login from './containers/Login';
+import Home from './containers/Home';
 
+// utils
 import * as storage from './utils/localStorage.js';
 import * as utils from './utils/features.js';
+
+// constants
 import { BREAKPOINT } from './constants/constants.js';
+
+// core
 import { vk } from './config.js';
 
 class App extends Component {
     constructor() {
         super();
-        this.state = { 
-            isRender: false,
-            canRefresh: true,
+        this.state = {
             countLoadFriends : vk.countLoadFriends,
             countLoadNews : vk.countLoadNews
         };
         
         this._handleOnClick = this._handleOnClick.bind(this);
         this._handleOnResize = this._handleOnResize.bind(this);
+        this._handleOnLogin = this._handleOnLogin.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener("resize", this._handleOnResize);
         this.init();
-        this.access();
     }
 
     componentWillUnmount() {
@@ -38,33 +40,6 @@ class App extends Component {
         const { appID } = vk;
         VK.init({ apiId: appID });
         console.info("API initialisation successful");
-    }
-
-    login() {
-        const authInfo = (response) => {
-            if(response.session) {
-                const { user, user : { id } } = response.session;
-                if (user) {
-                    this.checkLocalStorage(id);
-                    this.setState({ user: user, isRender: true });
-                }
-            }
-        }
-        VK.Auth.login(authInfo, vk.appPermissions);
-    }
-
-    logout() {
-        VK.Auth.logout();
-        storage.clear();
-        this.setState({ isRender: false });
-    }
-
-    access() {
-        VK.Auth.getLoginStatus((response) => {
-            if(response.status == 'connected' && response.session) {
-                this.login();
-            }
-        })
     }
 
     getFriends() {
@@ -118,7 +93,7 @@ class App extends Component {
             this.setState({ avatar: avatar });
         }
 
-        if (!status) { // need fix
+        if (!status) { 
             this.getStatus(id);
         } else {
             this.setState({ status: status });
@@ -164,29 +139,28 @@ class App extends Component {
         });
     }
 
+    _handleOnLogin(user) {
+        this.checkLocalStorage(user.id);
+        this.setState({ user: user });
+    }
+
     refresh() {
-        const { user: { id }, canRefresh } = this.state;
-        this.getStatus(id), this.getAvatar(id), this.getNews(), this.getFriends();
+        const { id } = this.state.user;
+        this.getStatus(id);
+        this.getAvatar(id);
+        this.getNews();
+        this.getFriends();
         console.info("updated");
     }
     
     render() {
-        const { isRender, canRefresh, user, avatar, news, friends } = this.state;
-        const isLoad = isRender && user && avatar && news && friends;
-        const ww = window.innerWidth;
+        const { user, avatar, news, friends } = this.state;
+        console.log(this.state);
+        const isLoad = user && avatar && news && friends;
         return(
             <div>
-                { !isLoad &&
-                  <AuthPage onClick={this._handleOnClick} /> 
-                }
-                { isLoad &&
-                  <div id="wrapper" className={ww > BREAKPOINT ? "toggled" : ""}>
-                      <Sidebar data={this.state} onClick={this._handleOnClick} />
-                      <div id="page-content-wrapper">
-                          <Dashboard data={this.state} onClick={this._handleOnClick} />
-                      </div>
-                  </div>
-                }
+                { !isLoad && <Login onLogin={this._handleOnLogin} /> }
+                { isLoad && <Home data={ this.state }/> }
             </div>
         );   
     }
