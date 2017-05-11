@@ -5,12 +5,15 @@ import Login from './containers/Login';
 import Home from './containers/Home';
 
 // utils
-import * as storage from './utils/localStorage.js';
+import LStorage from './utils/localStorage.js';
 import * as utils from './utils/features.js';
 
 // core
 import API from './core/API';
 import { vk } from './config.js';
+
+const LS = new LStorage;
+const api = new API;
 
 class App extends Component {
     constructor() {
@@ -39,7 +42,7 @@ class App extends Component {
         const { countLoadFriends } = this.state;
         VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
             if(data.response) {
-                storage.setAsJSON("friends", data.response);
+                LS.set("friends", data.response, true);
                 this.setState({ friends: data.response });
             }
         });
@@ -49,7 +52,7 @@ class App extends Component {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
             if(data.response) {
-                storage.setAsJSON("newsfeed", data.response);
+                LS.set("newsfeed", data.response, true);
                 this.setState({ news: data.response });
             }
         });     
@@ -58,7 +61,7 @@ class App extends Component {
     getStatus(id) {
         VK.Api.call('status.get', { user_id: id }, (data) => {
             if(data.response) {
-                storage.set("status", data.response.text);
+                LS.set("status", data.response.text);
                 this.setState({ status: data.response.text });
             }
         });
@@ -67,18 +70,17 @@ class App extends Component {
     getAvatar(id) {
         VK.Api.call('users.get', { user_id: id, fields: "photo_100" }, (data) => {
             if(data.response) {
-                storage.set("users", data.response[0].photo_100);
+                LS.set("users", data.response[0].photo_100);
                 this.setState({ avatar: data.response[0].photo_100});
             }
         });   
     }
 
     checkLocalStorage(id) {
-        const avatar  = storage.get("user_avatar");
-        const status  = storage.get("user_status");
-
-        const friends = storage.getAsJSON("user_friends");
-        const news    = storage.getAsJSON("user_news");
+        const avatar  = LS.get("users");
+        const status  = LS.get("status");
+        const friends = LS.get("friends", true);
+        const news    = LS.get("newsfeed", true);
 
         if (!avatar) {
             this.getAvatar(id);
@@ -130,12 +132,11 @@ class App extends Component {
 
     refresh() {
         const { id } = this.state.user;
-        const api = new API;
 
-        const status = api.get("status", { user_id: id });
-        const avatar = api.get("users",  { user_id: id, fields: "photo_100" });
-        const newsfeed = api.get("newsfeed", { count: vk.countLoadNews, fields: "post, photo" });
-        const friends = api.get("friends", { count: vk.countLoadFriends, order: "hints", fields: "photo_100, status" });
+        const status = api.get("status", { user_id: id }, false);
+        const avatar = api.get("users",  { user_id: id, fields: "photo_100" }, false);
+        const newsfeed = api.get("newsfeed", { count: vk.countLoadNews, fields: "post, photo" }, false);
+        const friends = api.get("friends", { count: vk.countLoadFriends, order: "hints", fields: "photo_100, status" }, false);
 
         this.setState({ canRefresh: false });
 

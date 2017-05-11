@@ -1,25 +1,28 @@
-export function get(key) {
-  const item = localStorage.getItem(key);
-  if (typeof item !== "undefined" && item !== null) {
-    return item;
-  } else return false;
-};
+// * LocalStorage API * //
 
-export function getAsJSON(key) {
-  const item = localStorage.getItem(key);
-  if (typeof item !== "undefined" && item !== null) {
-    return JSON.parse(item);
-  } else return false;
-}
+export default class LStorage {
 
-export function set(key, response) {
-  localStorage.setItem(key, response);
-}
+  get(key, getAsJson) {
+    const item = localStorage[key];
+    if (typeof item !== "undefined" && item !== null) {
+      if(getAsJson) {
+        return JSON.parse(item);
+      } else {
+        return item;
+      }
+    } else return false;
+  }
 
-export function setAsJSON(key, response) {
-  localStorage.setItem(key, JSON.stringify(response));
-}
+  set(key, item, saveAsJson) {
+    if(saveAsJson) {
+      localStorage.setItem(key, JSON.stringify(item));
+    } else {
+      localStorage.setItem(key, item);
+    }
+  }
 
-export function clear() {
-  localStorage.clear();
+  clear() {
+    localStorage.clear();
+  }
+
 }
