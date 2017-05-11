@@ -8,11 +8,8 @@ import Home from './containers/Home';
 import * as storage from './utils/localStorage.js';
 import * as utils from './utils/features.js';
 
-// constants
-import { BREAKPOINT } from './constants/constants.js';
-
 // core
-import * as API from './core/API';
+import API from './core/API';
 import { vk } from './config.js';
 
 class App extends Component {
@@ -20,7 +17,8 @@ class App extends Component {
         super();
         this.state = {
             countLoadFriends : vk.countLoadFriends,
-            countLoadNews : vk.countLoadNews
+            countLoadNews : vk.countLoadNews,
+            canRefresh: true
         };
         
         this._handleOnClick = this._handleOnClick.bind(this);
@@ -41,7 +39,7 @@ class App extends Component {
         const { countLoadFriends } = this.state;
         VK.Api.call('friends.get', { count: countLoadFriends, order: "hints", fields: 'photo_100, status' }, (data) => {
             if(data.response) {
-                storage.setAsJSON("user_friends", data.response);
+                storage.setAsJSON("friends", data.response);
                 this.setState({ friends: data.response });
             }
         });
@@ -51,7 +49,7 @@ class App extends Component {
         const { countLoadNews } = this.state;
         VK.Api.call('newsfeed.get', { count: countLoadNews, filters: "post,photo" }, (data) => {
             if(data.response) {
-                storage.setAsJSON("user_news", data.response);
+                storage.setAsJSON("newsfeed", data.response);
                 this.setState({ news: data.response });
             }
         });     
@@ -60,7 +58,7 @@ class App extends Component {
     getStatus(id) {
         VK.Api.call('status.get', { user_id: id }, (data) => {
             if(data.response) {
-                storage.set("user_status", data.response.text);
+                storage.set("status", data.response.text);
                 this.setState({ status: data.response.text });
             }
         });
@@ -69,7 +67,7 @@ class App extends Component {
     getAvatar(id) {
         VK.Api.call('users.get', { user_id: id, fields: "photo_100" }, (data) => {
             if(data.response) {
-                storage.set("user_avatar", data.response[0].photo_100);
+                storage.set("users", data.response[0].photo_100);
                 this.setState({ avatar: data.response[0].photo_100});
             }
         });   
@@ -108,12 +106,12 @@ class App extends Component {
     }
 
     _handleOnClick(e) {
-        const { user, sidebarToggle } = this.state;
+        const { user, sidebarToggle, canRefresh } = this.state;
         const { name } = e.target
         let value;
         switch(name) {
             case 'refresh': value = name;
-            this.refresh();
+            canRefresh && this.refresh();
             break;
             case 'toggle' : value = name;
             utils.sidebarToggle("wrapper");
@@ -126,26 +124,30 @@ class App extends Component {
     }
 
     _handleOnLogin(user) {
-        console.log(user);
         this.checkLocalStorage(user.id);
         this.setState({ user: user });
     }
 
     refresh() {
         const { id } = this.state.user;
-        // this.getStatus(id);
-        // this.getAvatar(id);
-        // this.getNews();
-        // this.getFriends();
+        const api = new API;
 
-        API.getStatus(id);
-        API.getAvatar(id, "photo_100");
-        API.getNews(vk.countLoadNews, "post, photo");
-        API.getFriends(vk.countLoadFriends, "hints", "photo_100,status");
+        const status = api.get("status", { user_id: id });
+        const avatar = api.get("users",  { user_id: id, fields: "photo_100" });
+        const newsfeed = api.get("newsfeed", { count: vk.countLoadNews, fields: "post, photo" });
+        const friends = api.get("friends", { count: vk.countLoadFriends, order: "hints", fields: "photo_100, status" });
 
-        console.log(API.getStatus(id)); // undefined
+        this.setState({ canRefresh: false });
 
-        console.info("updated");
+        Promise.all([status, avatar, newsfeed, friends])
+        .then(value => {
+            this.setState({ canRefresh: true });
+            console.info("updated ", value);
+        })
+        .catch(value => {
+            this.setState({ canRefresh: true });
+            console.error("error ", value);
+        });
     }
     
     render() {

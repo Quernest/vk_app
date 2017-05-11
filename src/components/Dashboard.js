@@ -28,7 +28,7 @@ class Dashboard extends Component {
 
   render() {
     const { textareaVal } = this.state;
-    const { data: { news }, onClick } = this.props; 
+    const { data: { news, canRefresh }, onClick } = this.props; 
     return(
       <div className="dashboard" id="page-content-wrapper">
           <button 
@@ -59,7 +59,7 @@ class Dashboard extends Component {
               />
               <button 
                 type="button" 
-                className="btn btn-refresh btn-success m-t-1 m-l-1" 
+                className={canRefresh ? "btn btn-refresh btn-success m-t-1 m-l-1" : "btn btn-refresh btn-success m-t-1 m-l-1 disabled"} 
                 name="refresh" 
                 onClick={onClick}
               >
