@@ -235,7 +235,7 @@ class News extends Component {
   );
   return (
     <div className="news">
-      {arrAllNews.length > 0 && renderTodos}
+      {renderTodos}
       <ul id="pagination">
         {renderPageNumbers}
       </ul>

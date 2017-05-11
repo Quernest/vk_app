@@ -1,46 +1,43 @@
-import LStorage from '../utils/localStorage';
+import { setItem, getItem } from '../utils/localStorage';
 
-const LS = new LStorage;
+const getJSON = (type) => {
+  if(type == "friends" || type == "newsfeed") {
+    return getItem(type, true);
+  }
+  return getItem(type);
+}
 
 class API {
-  get(type, params = {}, isUseChache) {
+  static get(type, params = {}, isUseStorage) {
     const url = type + '.get';
-    const chache = this.getJSON(type);
+    const storage = getJSON(type);
 
     return new Promise(function(resolve, reject) {
-      if (!LS.get(type) || !isUseChache) {
+      if (!getItem(type) || !isUseStorage) {
         VK.Api.call(url, params, function(data) {
           if (data.response) {
             resolve(data.response);
-            // LS.set(type, data.response, true);
           } else {
             reject(data.error);
           }
         });
       } else {
-        resolve(chache);
+        resolve(storage);
+      }
+    }); 
+  }
+
+  static post(type, params = {}) {
+    const url = type + '.post';
+    
+    VK.Api.call(url, params, function(data) {
+      if (data.response) {
+        console.info("message sent successfully")
+      } else {
+        console.error(data.error);
       }
     });
-    
   }
-
-  post(url, data = {}) {
-    VK.Api.call(url, data, resp => this.handler(resp));
-  }
-
-  handler(data) {
-    if (data.response) {
-      console.info("success");
-    }
-  }
-
-  getJSON(type) {
-    if (type == "friends" || type == "newsfeed") {
-      return LS.get(type, true);
-    }
-    return LS.get(type);
-  }
-
 }
 
 export default API;

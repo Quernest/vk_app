@@ -1,28 +1,31 @@
 // * LocalStorage API * //
 
-export default class LStorage {
-
-  get(key, getAsJson) {
-    const item = localStorage[key];
-    if (typeof item !== "undefined" && item !== null) {
-      if(getAsJson) {
-        return JSON.parse(item);
-      } else {
-        return item;
-      }
-    } else return false;
+const getItem = (key, getAsJson) => {
+  let item = localStorage[key];
+  if(!item) {
+    return;
   }
-
-  set(key, item, saveAsJson) {
-    if(saveAsJson) {
-      localStorage.setItem(key, JSON.stringify(item));
-    } else {
-      localStorage.setItem(key, item);
-    }
+  if(getAsJson) {
+    return JSON.parse(item);
   }
-
-  clear() {
-    localStorage.clear();
-  }
-
+  return item;
 }
+
+const setItem = (key, item, saveAsJson) => {
+  let data = item;
+  if(saveAsJson) {
+    data = JSON.stringify(item);
+  }
+  localStorage.setItem(key, data);
+}
+
+const clear = () => {
+  localStorage.clear();
+}
+
+export {
+  getItem,
+  setItem,
+  clear
+}
+

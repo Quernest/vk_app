@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as API from '../core/API.js';
+import API from '../core/API.js';
 import News from './News.js';
 
 class Dashboard extends Component {
@@ -22,7 +22,7 @@ class Dashboard extends Component {
     event.preventDefault();
     const { textareaVal } = this.state;
     if (textareaVal) {
-      API.addPost(textareaVal);
+      API.post("wall", { message: textareaVal });
     }
   }
 

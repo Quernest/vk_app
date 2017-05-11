@@ -1,1 +1,5 @@
-export const POSTER = require('../../assets/images/poster.png');
+const POSTER = require('../../assets/images/poster.png');
+
+export {
+  POSTER
+}
