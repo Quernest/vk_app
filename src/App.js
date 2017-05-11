@@ -12,6 +12,7 @@ import * as utils from './utils/features.js';
 import { BREAKPOINT } from './constants/constants.js';
 
 // core
+import * as API from './core/API';
 import { vk } from './config.js';
 
 class App extends Component {
@@ -23,17 +24,11 @@ class App extends Component {
         };
         
         this._handleOnClick = this._handleOnClick.bind(this);
-        this._handleOnResize = this._handleOnResize.bind(this);
         this._handleOnLogin = this._handleOnLogin.bind(this);
     }
 
     componentDidMount() {
-        window.addEventListener("resize", this._handleOnResize);
         this.init();
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("resize", this._handleOnResize);
     }
 
     init() {
@@ -120,47 +115,51 @@ class App extends Component {
             case 'refresh': value = name;
             this.refresh();
             break;
-            case 'login': value = name;
-            this.login();
-            break;
-            case 'logout': value = name;
-            this.logout();
-            break;
             case 'toggle' : value = name;
             utils.sidebarToggle("wrapper");
+            break;
+            case 'logout' : value = name;
+            this._handleOnLogin(false);
+            break;
             default : value = null;
         }
     }
 
-    _handleOnResize(e) {
-        this.setState({
-            windowHeight: window.innerHeight,
-            windowWidth: window.innerWidth
-        });
-    }
-
     _handleOnLogin(user) {
+        console.log(user);
         this.checkLocalStorage(user.id);
         this.setState({ user: user });
     }
 
     refresh() {
         const { id } = this.state.user;
-        this.getStatus(id);
-        this.getAvatar(id);
-        this.getNews();
-        this.getFriends();
+        // this.getStatus(id);
+        // this.getAvatar(id);
+        // this.getNews();
+        // this.getFriends();
+
+        API.getStatus(id);
+        API.getAvatar(id, "photo_100");
+        API.getNews(vk.countLoadNews, "post, photo");
+        API.getFriends(vk.countLoadFriends, "hints", "photo_100,status");
+
+        console.log(API.getStatus(id)); // undefined
+
         console.info("updated");
     }
     
     render() {
         const { user, avatar, news, friends } = this.state;
-        console.log(this.state);
         const isLoad = user && avatar && news && friends;
+
         return(
             <div>
-                { !isLoad && <Login onLogin={this._handleOnLogin} /> }
-                { isLoad && <Home data={ this.state }/> }
+                { !isLoad && 
+                    <Login onLogin={this._handleOnLogin} /> 
+                }
+                { isLoad &&  
+                    <Home data={ this.state } onClick={this._handleOnClick} /> 
+                }
             </div>
         );   
     }

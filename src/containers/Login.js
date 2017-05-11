@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import localStorage from '../utils/localStorage';
+import storage from '../utils/localStorage';
 import { POSTER } from '../constants/constants.js';
 import { vk } from '../config.js';
 
-class Login extends Component {
+export default class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ class Login extends Component {
 
   logout() {
       VK.Auth.logout();
-      localStorage.clear();
+      storage.clear();
       this.props.onLogin(false);
   }
 
@@ -66,5 +66,3 @@ class Login extends Component {
     );
   }
 }
-
-export default Login;
