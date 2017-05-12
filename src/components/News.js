@@ -42,8 +42,8 @@ class News extends Component {
         <div className="news">
           <Pagination 
             currentPage={currentPage} 
-            todos={arrAllNews} 
-            todosPerPage={todosPerPage} 
+            items={arrAllNews} 
+            itemsPerPage={todosPerPage} 
             onClick={this.handleClick} 
           />
         </div> 

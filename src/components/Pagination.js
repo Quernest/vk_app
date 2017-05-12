@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import * as utils from '../utils/features.js';
 
-export default function Pagination({ todos, currentPage, todosPerPage, onClick }) {
+export default function Pagination({ items, currentPage, itemsPerPage, onClick }) {
 
-  // Logic for displaying current todos
-  const indexOfLastTodo = currentPage * todosPerPage;
-  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-  const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
+  // Logic for displaying current items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
-  const renderTodos = currentTodos.map((item, index) => {
+  const renderItems = currentItems.map((item, index) => {
 
     const { 
       uid,
@@ -183,7 +183,7 @@ export default function Pagination({ todos, currentPage, todosPerPage, onClick }
 
   // Logic for displaying page numbers
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(todos.length / todosPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -201,7 +201,7 @@ export default function Pagination({ todos, currentPage, todosPerPage, onClick }
 
   return (
     <div>
-        { renderTodos }
+        { renderItems }
       <ul id="pagination">
         {renderPageNumbers}
       </ul>
