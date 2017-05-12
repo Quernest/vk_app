@@ -6,21 +6,21 @@ import * as utils from '../utils/features.js';
 import Pagination from './Pagination';
 import Items from './Items';
 
-class News extends Component {
+export default class News extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       currentPage : 1,
       itemsPerPage : 10
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
   }
 
-  handleClick(event) {
-    this.setState({ 
-      currentPage: Number(event.target.id) 
+  handleOnClick(event) {
+    this.setState({
+      currentPage: Number(event.target.id)
     });
     utils.scrollToTop();
   }
@@ -31,7 +31,7 @@ class News extends Component {
 
     const arrGroupsNews = [];
     const arrUsersNews  = [];
-    let arrAllNews    = [];
+    let arrAllNews      = [];
 
     utils.sortUserItems(profiles, items, arrUsersNews);
     utils.sortGroupsItems(groups, items, arrGroupsNews);
@@ -41,25 +41,24 @@ class News extends Component {
     utils.sortByDecreasing(arrAllNews);
 
     return (
-        <div className="news">
-          <Items
-            currentPage={currentPage}
-            items={arrAllNews}
-            itemsPerPage={itemsPerPage}
-          />
-          <Pagination 
-            currentPage={currentPage} 
-            items={arrAllNews} 
-            itemsPerPage={itemsPerPage} 
-            onClick={this.handleClick} 
-          />
-        </div> 
-      );
+      <div className='news'>
+        <Items
+          currentPage={currentPage}
+          items={arrAllNews}
+          itemsPerPage={itemsPerPage}
+        />
+        <Pagination
+          currentPage={currentPage}
+          items={arrAllNews}
+          itemsPerPage={itemsPerPage}
+          onClick={this.handleOnClick}
+          type='pagination'
+        />
+      </div>
+    );
   }
 }
 
 News.propTypes = {
   news : PropTypes.object.isRequired
-}
-
-export default News;
+};

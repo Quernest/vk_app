@@ -32,7 +32,7 @@ export default class Dashboard extends Component {
     const { data: { news, canRefresh }, handleOnClick } = this.props;
 
     return (
-      <div className='dashboard' id='page-content-wrapper'>
+      <div className='dashboard m-t-3' id='page-content-wrapper'>
         <button
           className='btn m-b-1'
           id='menu-toggle'

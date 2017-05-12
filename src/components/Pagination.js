@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Pagination({ items, itemsPerPage, onClick }) {
+export default function Pagination({ items, currentPage, itemsPerPage, onClick, type }) {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
@@ -20,6 +20,28 @@ export default function Pagination({ items, itemsPerPage, onClick }) {
     );
   });
 
+  if (type === 'pager') {
+    const lastPage = items.length / itemsPerPage;
+
+    return (
+      <div className='pager'>
+        <button
+          className={currentPage === 1 ? 'btn disabled' : 'btn btn-success'}
+          name='prev'
+          onClick={onClick}
+        >
+          &larr;
+        </button>
+        <button
+          className={currentPage >= lastPage ? 'btn disabled' : 'btn btn-success'}
+          name='next'
+          onClick={onClick}
+        >
+          &rarr;
+        </button>
+      </div>
+    );
+  }
   return (
     <ul id='pagination'>
       {renderPageNumbers}
@@ -30,5 +52,7 @@ export default function Pagination({ items, itemsPerPage, onClick }) {
 Pagination.propTypes = {
   items: PropTypes.array.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired
+  currentPage: PropTypes.number,
+  onClick: PropTypes.func.isRequired,
+  type: PropTypes.string
 };

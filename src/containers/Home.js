@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Header    from '../components/Header';
 import Sidebar   from '../components/Sidebar';
 import Dashboard from '../components/Dashboard';
 
@@ -10,6 +11,7 @@ export default class Home extends Component {
 
     return (
       <div id='wrapper' className='toggled'>
+        <Header handleOnClick={handleOnClick} />
         <Sidebar data={data} handleOnClick={handleOnClick} />
         <Dashboard data={data} handleOnClick={handleOnClick} />
       </div>
