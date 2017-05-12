@@ -5,12 +5,20 @@ import Home from './containers/Home';
 import Login from './components/Login';
 
 // utils
-import { getItem, setItem, clear } from './utils/localStorage.js';
+import { getLStorage, setLStorage, clearLStorage } from './utils/localStorage.js';
 import * as utils from './utils/features.js';
 
 // core
 import API from './core/API';
 import { vk } from './config.js';
+
+// constants 
+import {
+    FRIENDS,
+    STATUS,
+    USERS,
+    NEWSFEED
+} from './constants/constants.js';
 
 class App extends Component {
     constructor() {
@@ -40,7 +48,6 @@ class App extends Component {
             if(response.session) {
                 const { user, user : { id } } = response.session;
                 if (user) {
-                    // this.checkLocalStorage(id);
                     this.refresh(true, id);
                     this.setState({ user: user });
                 }
@@ -51,7 +58,7 @@ class App extends Component {
 
     logout() {
         VK.Auth.logout();
-        clear();
+        clearLStorage();
         this.setState({ user: null });
     }
 
@@ -88,48 +95,52 @@ class App extends Component {
         this.setState({ canRefresh: false });
 
         Promise.all([
-            API.get("status", { 
+            API.get(STATUS, { 
                 user_id: id 
             }, isUseStorage)
             .then(data => {
-                this.setState({ status: data.text });
-                // LS
-            }).catch(data => {
-                console.error(data.error);
+                this.setState({ status: data });
+                setLStorage(STATUS, data); 
+            })
+            .catch(error => {
+                console.error(error);
             }),
-            API.get("users", { 
+
+            API.get(USERS, { 
                 user_id: id, 
                 fields: "photo_100" 
             }, isUseStorage)
             .then(data => {
-                this.setState({ avatar: data[0].photo_100 })
-                // LS
-            }).catch(data => {
-                console.error(data.error);
+                this.setState({ users: data })
+                setLStorage(USERS, data);
+            })
+            .catch(error => {
+                console.error(error);
             }),
 
-            API.get("newsfeed", { 
+            API.get(NEWSFEED, { 
                 count: vk.countLoadNews, 
-                fields: "post, photo" 
+                fields: "post,photo" 
             }, isUseStorage)
             .then(data => {
                 this.setState({ news: data });
-                // LS
-            }).catch(data => {
-                console.error(data.error);
+                setLStorage(NEWSFEED, data); 
+            })
+            .catch(error => {
+                console.error(error);
             }),
 
-            API.get("friends", { 
+            API.get(FRIENDS, { 
                 count: vk.countLoadFriends, 
                 order: "hints", 
-                fields: "photo_100, status" 
+                fields: "photo_100,status" 
             }, isUseStorage)
             .then(data => {
                 this.setState({ friends: data })
-                // LS
+                setLStorage(FRIENDS, data); 
             })
-            .catch(data => {
-                console.error(data.error);
+            .catch(error => {
+                console.error(error);
             }),
         ]).then(() => {
                 this.setState({ canRefresh: true })
@@ -138,8 +149,8 @@ class App extends Component {
     }
     
     render() {
-        const { user, avatar, news, friends } = this.state;
-        const isLoad = user && avatar && news && friends;
+        const { user, users, news, friends } = this.state;
+        const isLoad = user && users && news && friends;
 
         return(
             <div>

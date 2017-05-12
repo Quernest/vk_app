@@ -1,19 +1,11 @@
-import { setItem, getItem } from '../utils/localStorage';
-
-const getJSON = (type) => {
-  if(type == "friends" || type == "newsfeed") {
-    return getItem(type, true);
-  }
-  return getItem(type);
-}
+import { setLStorage, getLStorage } from '../utils/localStorage';
 
 class API {
   static get(type, params = {}, isUseStorage) {
     const url = type + '.get';
-    const storage = getJSON(type);
 
     return new Promise(function(resolve, reject) {
-      if (!getItem(type) || !isUseStorage) {
+      if (!getLStorage(type) || !isUseStorage) {
         VK.Api.call(url, params, function(data) {
           if (data.response) {
             resolve(data.response);
@@ -22,8 +14,8 @@ class API {
           }
         });
       } else {
-        resolve(storage);
-      }
+        resolve( getLStorage(type) );
+      } 
     }); 
   }
 

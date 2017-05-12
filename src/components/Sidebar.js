@@ -30,7 +30,8 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { data, data: { user, status, friends, avatar }, onClick } = this.props;
+    const { data, data: { user, users, status: { text }, friends }, onClick } = this.props;
+
     const { currentPage, todosPerPage } = this.state;
     const indexOfLastTodo = currentPage * todosPerPage;
     const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
@@ -72,7 +73,7 @@ class Sidebar extends Component {
             <p>{status}</p>
           </div>
           <a href={`https://vk.com/id${user.id}`} className="profile__avatar">
-            <img src={avatar} className="img-circle" alt="img" />
+            <img src={users[0].photo_100} className="img-circle" alt="img" />
           </a>
           <div className="row profile__info m-t-1">
             <div className="col-md-6">

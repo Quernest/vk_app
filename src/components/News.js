@@ -31,10 +31,6 @@ class News extends Component {
   render() {
     let { items, groups, profiles } = this.props.news;
 
-    items    = utils.map(items);
-    groups   = utils.map(groups);
-    profiles = utils.map(profiles);
-
     let arrGroupsNews = [];
     let arrUsersNews  = [];
     let arrAllNews    = [];
