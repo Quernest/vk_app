@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import * as utils from '../utils/features.js';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Pagination({ items, itemsPerPage, onClick }) {
-
   const pageNumbers = [];
+
   for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
@@ -21,9 +21,14 @@ export default function Pagination({ items, itemsPerPage, onClick }) {
   });
 
   return (
-    <ul id="pagination">
+    <ul id='pagination'>
       {renderPageNumbers}
     </ul>
   );
-  
 }
+
+Pagination.propTypes = {
+  items: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired
+};

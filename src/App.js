@@ -8,14 +8,14 @@ import Home from './containers/Home';
 import Login from './components/Login';
 
 // * utils * //
-import { getLStorage, setLStorage, clearLStorage } from './utils/localStorage.js';
+import { setLStorage, clearLStorage } from './utils/localStorage.js';
 import * as utils from './utils/features.js';
 
 // * core * //
 import API from './core/API';
 import { vk } from './config.js';
 
-// * constants * // 
+// * constants * //
 import {
     FRIENDS,
     STATUS,
@@ -24,149 +24,154 @@ import {
 } from './constants/constants.js';
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            countLoadFriends : vk.countLoadFriends,
-            countLoadNews : vk.countLoadNews,
-            canRefresh: true
-        };
-        
-        this._handleOnClick = this._handleOnClick.bind(this);
-    }
+  constructor() {
+    super();
+    this.state = {
+      countLoadFriends : vk.countLoadFriends,
+      countLoadNews : vk.countLoadNews,
+      canRefresh: true
+    };
 
-    componentDidMount() {
-        this.init();
-        this.access();
-    }
+    this._handleOnClick = this._handleOnClick.bind(this);
+  }
 
-    init() {
-        const { appID } = vk;
-        VK.init({ apiId: appID });
-        console.info("API initialisation successful");
-    }
+  componentDidMount() {
+    this.init();
+    this.access();
+  }
 
-    login() {
-        const authInfo = (response) => {
-            if(response.session) {
-                const { user, user : { id } } = response.session;
-                if (user) {
-                    this.refresh(true, id);
-                    this.setState({ user: user });
-                }
-            }
+  init() {
+    const { appID } = vk;
+
+    VK.init({ apiId: appID });
+    console.info('API initialisation successful');
+  }
+
+  login() {
+    const authInfo = (response) => {
+      if (response.session) {
+        const { user, user: { id } } = response.session;
+
+        if (user) {
+          this.refresh(true, id);
+          this.setState({ user });
         }
-        VK.Auth.login(authInfo, vk.appPermissions);
-    }
+      }
+    };
+    VK.Auth.login(authInfo, vk.appPermissions);
+  }
 
-    logout() {
-        VK.Auth.logout();
-        clearLStorage();
-        this.setState({ user: null });
-    }
+  logout() {
+    VK.Auth.logout();
+    clearLStorage();
+    this.setState({ user: null });
+  }
 
-    access() {
-        VK.Auth.getLoginStatus((response) => {
-            if(response.status == 'connected' && response.session) {
-                this.login();
-            }
-        })
-    }
+  access() {
+    VK.Auth.getLoginStatus((response) => {
+      if (response.status === 'connected' && response.session) {
+        this.login();
+      }
+    });
+  }
 
-    _handleOnClick(e) {
-        const { user, canRefresh } = this.state;
-        const { name } = e.target
-        let value;
-        switch(name) {
-            case 'refresh': value = name;
-            canRefresh && this.refresh(false, user.id);
-            break;
-            case 'toggle' : value = name;
-            utils.sidebarToggle("wrapper");
-            break;
-            case 'logout' : value = name;
-            this.logout();
-            break;
-            case 'login' : value = name;
-            this.login();
-            default : value = null;
-            break;
+  _handleOnClick(e) {
+    const { user, canRefresh } = this.state;
+    const { name } = e.target;
+
+    switch (name) {
+      case 'refresh':
+        if (canRefresh) {
+          this.refresh(false, user.id);
+        } else {
+          console.warn('Wait!');
         }
+        break;
+      case 'toggle':
+        utils.sidebarToggle('wrapper');
+        break;
+      case 'logout':
+        this.logout();
+        break;
+      case 'login':
+        this.login();
+        break;
+      default:
+        console.log('click');
+        break;
     }
+  }
 
-    refresh(isUseStorage, id) {
+  refresh(isUseStorage, id) {
+    this.setState({ canRefresh: false });
+    Promise.all([
+      API.get(STATUS, {
+        user_id: id
+      }, isUseStorage)
+      .then(data => {
+        this.setState({ status: data });
+        setLStorage(STATUS, data);
+      })
+      .catch(error => {
+        console.error(error);
+      }),
 
-        this.setState({ canRefresh: false });
-        
-        Promise.all([
-            API.get(STATUS, { 
-                user_id: id 
-            }, isUseStorage)
-            .then(data => {
-                this.setState({ status: data });
-                setLStorage(STATUS, data); 
-            })
-            .catch(error => {
-                console.error(error);
-            }),
+      API.get(USERS, {
+        user_id: id,
+        fields: 'photo_100'
+      }, isUseStorage)
+      .then(data => {
+        this.setState({ users: data });
+        setLStorage(USERS, data);
+      })
+      .catch(error => {
+        console.error(error);
+      }),
 
-            API.get(USERS, { 
-                user_id: id, 
-                fields: "photo_100" 
-            }, isUseStorage)
-            .then(data => {
-                this.setState({ users: data })
-                setLStorage(USERS, data);
-            })
-            .catch(error => {
-                console.error(error);
-            }),
+      API.get(NEWSFEED, {
+        count: vk.countLoadNews,
+        filters: 'post,photo'
+      }, isUseStorage)
+      .then(data => {
+        this.setState({ news: data });
+        setLStorage(NEWSFEED, data);
+      })
+      .catch(error => {
+        console.error(error);
+      }),
 
-            API.get(NEWSFEED, { 
-                count: vk.countLoadNews, 
-                filters: "post,photo" 
-            }, isUseStorage)
-            .then(data => {
-                this.setState({ news: data });
-                setLStorage(NEWSFEED, data); 
-            })
-            .catch(error => {
-                console.error(error);
-            }),
+      API.get(FRIENDS, {
+        count: vk.countLoadFriends,
+        order: 'hints',
+        fields: 'photo_100,status'
+      }, isUseStorage)
+      .then(data => {
+        this.setState({ friends: data });
+        setLStorage(FRIENDS, data); 
+      })
+      .catch(error => {
+        console.error(error);
+      })
+    ]).then(() => {
+      this.setState({ canRefresh: true });
+    });
+  }
 
-            API.get(FRIENDS, { 
-                count: vk.countLoadFriends, 
-                order: "hints", 
-                fields: "photo_100,status" 
-            }, isUseStorage)
-            .then(data => {
-                this.setState({ friends: data })
-                setLStorage(FRIENDS, data); 
-            })
-            .catch(error => {
-                console.error(error);
-            }),
-        ]).then(() => {
-                this.setState({ canRefresh: true })
-            }
-        );
-    }
-    
-    render() {
-        const { user, users, news, friends } = this.state;
-        const isLoad = user && users && news && friends;
+  render() {
+    const { user, users, news, friends } = this.state;
+    const isLoad = user && users && news && friends;
 
-        return(
-            <div>
-                { !isLoad && 
-                    <Login onClick={this._handleOnClick} /> 
-                }
-                { isLoad &&  
-                    <Home data={ this.state } onClick={this._handleOnClick} /> 
-                }
-            </div>
-        );   
-    }
-};
+    return (
+      <div>
+        { !isLoad &&
+          <Login handleOnClick={this._handleOnClick} />
+        }
+        { isLoad &&
+          <Home handleOnClick={this._handleOnClick} data={this.state} />
+        }
+      </div>
+    );
+  }
+}
 
 export default App;

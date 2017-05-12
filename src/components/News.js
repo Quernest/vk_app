@@ -29,8 +29,8 @@ class News extends Component {
     const { currentPage, itemsPerPage } = this.state;
     const { items, groups, profiles } = this.props.news;
 
-    let arrGroupsNews = [];
-    let arrUsersNews  = [];
+    const arrGroupsNews = [];
+    const arrUsersNews  = [];
     let arrAllNews    = [];
 
     utils.sortUserItems(profiles, items, arrUsersNews);

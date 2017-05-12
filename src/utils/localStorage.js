@@ -1,18 +1,19 @@
 // * LocalStorage API * //
 
-const getLStorage = (key) => {
-  let item = localStorage[key];
-  if(!item) {
+function getLStorage(key) {
+  const item = localStorage[key];
+
+  if (!item) {
     return false;
   }
   return JSON.parse(item);
 }
 
-const setLStorage = (key, item) => {
+function setLStorage(key, item) {
   localStorage.setItem(key, JSON.stringify(item));
 }
 
-const clearLStorage = () => {
+function clearLStorage() {
   localStorage.clear();
 }
 
@@ -20,5 +21,6 @@ export {
   getLStorage,
   setLStorage,
   clearLStorage
-}
+};
+
 

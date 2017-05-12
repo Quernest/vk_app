@@ -1,11 +1,12 @@
-import { setLStorage, getLStorage } from '../utils/localStorage';
+import { getLStorage } from '../utils/localStorage';
 
-class API {
+export default class API {
   static get(type, params = {}, isUseStorage) {
-    const url = type + '.get';
-    return new Promise(function(resolve, reject) {
+    const url = `${type}.get`;
+
+    return new Promise((resolve, reject) => {
       if (!getLStorage(type) || !isUseStorage) {
-        VK.Api.call(url, params, function(data) {
+        VK.Api.call(url, params, (data) => {
           if (data.response) {
             resolve(data.response);
             return;
@@ -14,13 +15,14 @@ class API {
         });
         return;
       }
-      resolve( getLStorage(type) ); 
-    }); 
+      resolve(getLStorage(type));
+    });
   }
 
   static post(type, params = {}) {
-    const url = type + '.post';
-    VK.Api.call(url, params, function(data) {
+    const url = `${type}.post`;
+
+    VK.Api.call(url, params, (data) => {
       if (data.response) {
         console.info("message sent successfully");
       } else {
@@ -29,5 +31,3 @@ class API {
     });
   }
 }
-
-export default API;

@@ -56,7 +56,10 @@ module.exports = {
                 'image-webpack-loader'
                 ]
             },
-            { test: /\.(ttf|eot|woff(2)?|svg)$/, loader: 'file-loader?name=fonts/[name].[ext]' },
+            { 
+                test: /\.(ttf|eot|woff(2)?|svg)$/, 
+                loader: 'file-loader?name=fonts/[name].[ext]' 
+            },
             {
                 test: /\.json$/,
                 use: 'json-loader'
@@ -65,7 +68,10 @@ module.exports = {
                 test: /\.mp4$/,
                 use: 'file-loader?name=video/[name].[ext]'
             },
-            { test: /bootstrap[\/\\]dist[\/\\]js[\/\\]umd[\/\\]/, loader: 'imports-loader?jQuery=jquery' },
+            { 
+                test: /bootstrap[\/\\]dist[\/\\]js[\/\\]umd[\/\\]/, 
+                loader: 'imports-loader?jQuery=jquery' 
+            },
         ]
     },
     node: {
