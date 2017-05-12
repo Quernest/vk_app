@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import * as utils from '../utils/features.js';
 
 import Pagination from './Pagination';
+import Items from './Items';
 
 class News extends Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class News extends Component {
     
     this.state = {
       currentPage : 1,
-      todosPerPage : 10
+      itemsPerPage : 10
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -24,7 +26,7 @@ class News extends Component {
   }
 
   render() {
-    const { currentPage, todosPerPage } = this.state;
+    const { currentPage, itemsPerPage } = this.state;
     const { items, groups, profiles } = this.props.news;
 
     let arrGroupsNews = [];
@@ -40,10 +42,15 @@ class News extends Component {
 
     return (
         <div className="news">
+          <Items
+            currentPage={currentPage}
+            items={arrAllNews}
+            itemsPerPage={itemsPerPage}
+          />
           <Pagination 
             currentPage={currentPage} 
             items={arrAllNews} 
-            itemsPerPage={todosPerPage} 
+            itemsPerPage={itemsPerPage} 
             onClick={this.handleClick} 
           />
         </div> 
