@@ -124,7 +124,7 @@ class App extends Component {
 
             API.get(NEWSFEED, { 
                 count: vk.countLoadNews, 
-                fields: "post,photo" 
+                filters: "post,photo" 
             }, isUseStorage)
             .then(data => {
                 this.setState({ news: data });

@@ -10,7 +10,17 @@ export default function Pagination({ todos, currentPage, todosPerPage, onClick }
 
   const renderTodos = currentTodos.map((item, index) => {
 
-    const { uid, gid, attachment, photo, first_name, last_name, screen_name, name, text } = item;
+    const { 
+      uid,
+      gid, 
+      attachment, 
+      photo, 
+      first_name, 
+      last_name, 
+      screen_name, 
+      name, 
+      text 
+    } = item;
 
     if (text && !attachment) {
       return (
@@ -191,7 +201,7 @@ export default function Pagination({ todos, currentPage, todosPerPage, onClick }
 
   return (
     <div>
-        {renderTodos}
+        { renderTodos }
       <ul id="pagination">
         {renderPageNumbers}
       </ul>

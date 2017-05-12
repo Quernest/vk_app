@@ -7,32 +7,25 @@ import Pagination from './Pagination';
 class News extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       currentPage : 1,
       todosPerPage : 10
     };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(event) {
-    this.scroll();
-    this.setState({
-      currentPage: Number(event.target.id)
+    this.setState({ 
+      currentPage: Number(event.target.id) 
     });
-    if(this.state.currentPage >= 1) {
-      $(`#${this.state.currentPage}`).removeClass("active");
-      $(`#${event.target.id}`).addClass("active");
-    }
-  }
-
-  scroll() {
-    let container = $("html, body"); 
-    container.animate({ scrollTop: 0 }, "slow"); 
+    utils.scrollToTop();
   }
 
   render() {
-    let { currentPage, todosPerPage } = this.state;
-    let { items, groups, profiles } = this.props.news;
+    const { currentPage, todosPerPage } = this.state;
+    const { items, groups, profiles } = this.props.news;
 
     let arrGroupsNews = [];
     let arrUsersNews  = [];
@@ -43,11 +36,16 @@ class News extends Component {
 
     arrAllNews = [...arrGroupsNews, ...arrUsersNews];
 
-    utils.sortByDec(arrAllNews);
+    utils.sortByDecreasing(arrAllNews);
 
     return (
         <div className="news">
-          <Pagination currentPage={currentPage} todos={arrAllNews} todosPerPage={todosPerPage} onClick={this.handleClick} />
+          <Pagination 
+            currentPage={currentPage} 
+            todos={arrAllNews} 
+            todosPerPage={todosPerPage} 
+            onClick={this.handleClick} 
+          />
         </div> 
       );
   }

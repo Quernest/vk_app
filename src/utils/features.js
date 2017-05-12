@@ -6,7 +6,7 @@ export function map(object) {
   return object.map((item, index) => item);
 }
 
-export function sortByDec(arr) {
+export function sortByDecreasing(arr) {
   arr.sort((a, b) => b.date - a.date);
 }
 
@@ -33,4 +33,9 @@ export function sortGroupsItems(groups, items, array) {
 export function sidebarToggle(tag) {
   const wrapper = $(`#${tag}`);
   wrapper.toggleClass("toggled");
+}
+
+export function scrollToTop() {
+  let container = $("html, body"); 
+  container.animate({ scrollTop: 0 }, "slow"); 
 }

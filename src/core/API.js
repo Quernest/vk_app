@@ -22,7 +22,7 @@ class API {
     const url = type + '.post';
     VK.Api.call(url, params, function(data) {
       if (data.response) {
-        console.info("message sent successfully")
+        console.info("message sent successfully");
       } else {
         console.error(data.error);
       }

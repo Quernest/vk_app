@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // components
 import Sidebar   from '../components/Sidebar';
@@ -14,4 +15,9 @@ export default class Home extends Component {
       </div>
     );
   }
+}
+
+Home.propTypes = {
+  data : PropTypes.object.isRequired,
+  onClick : PropTypes.func.isRequired
 }

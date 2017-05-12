@@ -1,8 +1,9 @@
-$page-active-color: #27ae60;
+$page-active-color: #666;
 $border-radius: 5px;
 
 ul#pagination {
   padding: 1rem;
+  border-radius: $border-radius;
   background-color: #fff;
   display: flex;
   li {
