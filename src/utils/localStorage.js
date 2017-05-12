@@ -3,7 +3,7 @@
 const getLStorage = (key) => {
   let item = localStorage[key];
   if(!item) {
-    return;
+    return false;
   }
   return JSON.parse(item);
 }

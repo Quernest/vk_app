@@ -1,18 +1,21 @@
-// essentials
+// * essentials * //
 import React, { Component } from 'react';
 
+// * containers * //
 import Home from './containers/Home';
+
+// * components * //
 import Login from './components/Login';
 
-// utils
+// * utils * //
 import { getLStorage, setLStorage, clearLStorage } from './utils/localStorage.js';
 import * as utils from './utils/features.js';
 
-// core
+// * core * //
 import API from './core/API';
 import { vk } from './config.js';
 
-// constants 
+// * constants * // 
 import {
     FRIENDS,
     STATUS,
@@ -71,7 +74,7 @@ class App extends Component {
     }
 
     _handleOnClick(e) {
-        const { user, sidebarToggle, canRefresh } = this.state;
+        const { user, canRefresh } = this.state;
         const { name } = e.target
         let value;
         switch(name) {
@@ -92,8 +95,9 @@ class App extends Component {
     }
 
     refresh(isUseStorage, id) {
-        this.setState({ canRefresh: false });
 
+        this.setState({ canRefresh: false });
+        
         Promise.all([
             API.get(STATUS, { 
                 user_id: id 

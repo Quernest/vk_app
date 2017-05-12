@@ -70,7 +70,7 @@ class Sidebar extends Component {
         <div className="profile m-t-2 m-b-1">
           <h3>{`${user.first_name} ${user.last_name}`}</h3>
           <div className="profile__status">
-            <p>{status}</p>
+            <p>{text}</p>
           </div>
           <a href={`https://vk.com/id${user.id}`} className="profile__avatar">
             <img src={users[0].photo_100} className="img-circle" alt="img" />
