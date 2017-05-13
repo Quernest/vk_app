@@ -27,17 +27,56 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      countLoadFriends : vk.countLoadFriends,
-      countLoadNews : vk.countLoadNews,
+      countLoadFriends: vk.countLoadFriends,
+      countLoadNews: vk.countLoadNews,
+      windowWidth: window.innerWidth,
       canRefresh: true
     };
 
-    this._handleOnClick = this._handleOnClick.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleOnResize = this.handleOnResize.bind(this);
   }
 
   componentDidMount() {
     this.init();
     this.access();
+    window.addEventListener('resize', this.handleOnResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleOnResize);
+  }
+
+  handleOnResize() {
+    this.setState({ windowWidth: window.innerWidth });
+  }
+
+  handleOnClick(e) {
+    e.preventDefault();
+    const { user, canRefresh } = this.state;
+    const { name } = e.currentTarget;
+
+    switch (name) {
+      case 'refresh':
+        if (canRefresh) {
+          this.refresh(false, user.id);
+        } else {
+          console.warn('Wait!');
+        }
+        break;
+      case 'toggle':
+        utils.toggle();
+        break;
+      case 'logout':
+        this.logout();
+        break;
+      case 'login':
+        this.login();
+        break;
+      default:
+        console.log('click ', name);
+        break;
+    }
   }
 
   init() {
@@ -73,34 +112,6 @@ class App extends Component {
         this.login();
       }
     });
-  }
-
-  _handleOnClick(e) {
-    e.preventDefault();
-    const { user, canRefresh } = this.state;
-    const { name } = e.currentTarget;
-
-    switch (name) {
-      case 'refresh':
-        if (canRefresh) {
-          this.refresh(false, user.id);
-        } else {
-          console.warn('Wait!');
-        }
-        break;
-      case 'toggle':
-        utils.toggle();
-        break;
-      case 'logout':
-        this.logout();
-        break;
-      case 'login':
-        this.login();
-        break;
-      default:
-        console.log('click ', name);
-        break;
-    }
   }
 
   refresh(isUseStorage, id) {
@@ -148,7 +159,7 @@ class App extends Component {
       }, isUseStorage)
       .then(data => {
         this.setState({ friends: data });
-        setLStorage(FRIENDS, data); 
+        setLStorage(FRIENDS, data);
       })
       .catch(error => {
         console.error(error);
@@ -165,10 +176,10 @@ class App extends Component {
     return (
       <div>
         { !isLoad &&
-          <Login handleOnClick={this._handleOnClick} />
+          <Login onClick={this.handleOnClick} />
         }
         { isLoad &&
-          <Home handleOnClick={this._handleOnClick} data={this.state} />
+          <Home onClick={this.handleOnClick} data={this.state} />
         }
       </div>
     );

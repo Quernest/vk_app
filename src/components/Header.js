@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Header({ handleOnClick }) {
+export default function Header({ onClick }) {
   return (
     <header>
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-xs-8'>
             <button
-              onClick={handleOnClick}
+              onClick={onClick}
               name='toggle'
               className='btn-toggle'
             >
@@ -21,7 +21,7 @@ export default function Header({ handleOnClick }) {
             <button
               className='btn btn-outline-danger pull-xs-right'
               type='button'
-              onClick={handleOnClick}
+              onClick={onClick}
               name='logout'
             >
               Выйти
@@ -34,6 +34,6 @@ export default function Header({ handleOnClick }) {
 }
 
 Header.propTypes = {
-  handleOnClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 

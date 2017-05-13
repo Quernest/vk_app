@@ -53,6 +53,5 @@ export default class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  data: PropTypes.object.isRequired,
-  handleOnClick: PropTypes.func.isRequired
+  data: PropTypes.object.isRequired
 };

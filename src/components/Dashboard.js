@@ -30,7 +30,7 @@ export default class Dashboard extends Component {
 
   render() {
     const { textareaVal } = this.state;
-    const { data: { news, canRefresh }, handleOnClick } = this.props;
+    const { data: { news, canRefresh }, onClick } = this.props;
 
     const refreshButton = classNames('btn btn-refresh btn-success m-t-1 m-l-1', {
       'disabled': !canRefresh
@@ -58,7 +58,7 @@ export default class Dashboard extends Component {
             type='button'
             className={refreshButton}
             name='refresh'
-            onClick={handleOnClick}
+            onClick={onClick}
           >
             Обновить
           </button>
@@ -75,5 +75,5 @@ export default class Dashboard extends Component {
 
 Dashboard.propTypes = {
   data: PropTypes.object.isRequired,
-  handleOnClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { POSTER } from '../constants/constants.js';
 
-export default function Login({ handleOnClick }) {
+export default function Login({ onClick }) {
   return (
     <div id='login'>
       <img src={POSTER} alt='poster' className='img-fluid' />
-      <button name='login' className='btn btn-primary' onClick={handleOnClick}>
+      <button name='login' className='btn btn-primary' onClick={onClick}>
         Авторизоваться
       </button>
     </div>
@@ -15,5 +15,5 @@ export default function Login({ handleOnClick }) {
 }
 
 Login.propTypes = {
-  handleOnClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };

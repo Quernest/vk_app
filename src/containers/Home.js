@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Header    from '../components/Header';
 import Sidebar   from '../components/Sidebar/Sidebar';
@@ -7,13 +8,13 @@ import Dashboard from '../components/Dashboard';
 
 export default class Home extends Component {
   render() {
-    const { data, handleOnClick } = this.props;
+    const { data, onClick, data: { windowWidth } } = this.props;
 
     return (
-      <div id='wrapper'>
-        <Header handleOnClick={handleOnClick} />
-        <Sidebar data={data} handleOnClick={handleOnClick} />
-        <Dashboard data={data} handleOnClick={handleOnClick} />
+      <div id='wrapper' className={classNames({ 'toggled': windowWidth < 768 })}>
+        <Header onClick={onClick} />
+        <Sidebar data={data} onClick={onClick} />
+        <Dashboard data={data} onClick={onClick} />
       </div>
     );
   }
@@ -21,5 +22,5 @@ export default class Home extends Component {
 
 Home.propTypes = {
   data : PropTypes.object.isRequired,
-  handleOnClick : PropTypes.func.isRequired
+  onClick : PropTypes.func.isRequired
 };
