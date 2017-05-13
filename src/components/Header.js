@@ -4,10 +4,26 @@ import PropTypes from 'prop-types';
 export default function Header({ handleOnClick }) {
   return (
     <header>
-      <div id='toggle' onClick={handleOnClick} name='toggle'>
-        <div className='one' />
-        <div className='two' />
-        <div className='three' />
+      <div className='container-fluid'>
+        <div className='row'>
+          <div className='col-xs-8'>
+            <div onClick={handleOnClick} name='toggle' className='btn-toggle'>
+              <div className='one'/>
+              <div className='two'/>
+              <div className='three'/>
+            </div>
+          </div>
+          <div className='col-xs-4'>
+            <button
+              className='btn btn-outline-danger pull-xs-right'
+              type='button'
+              onClick={handleOnClick}
+              name='logout'
+            >
+              Выйти
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   );
