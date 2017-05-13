@@ -79,6 +79,8 @@ class App extends Component {
     const { user, canRefresh } = this.state;
     const { name } = e.target;
 
+    console.log(e.target.name);
+
     switch (name) {
       case 'refresh':
         if (canRefresh) {

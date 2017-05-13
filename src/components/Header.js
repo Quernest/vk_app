@@ -7,11 +7,15 @@ export default function Header({ handleOnClick }) {
       <div className='container-fluid'>
         <div className='row'>
           <div className='col-xs-8'>
-            <div onClick={handleOnClick} name='toggle' className='btn-toggle'>
+            <button
+              onClick={handleOnClick}
+              name='toggle'
+              className='btn-toggle'
+            >
               <div className='one'/>
               <div className='two'/>
               <div className='three'/>
-            </div>
+            </button>
           </div>
           <div className='col-xs-4'>
             <button

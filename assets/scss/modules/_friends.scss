@@ -1,4 +1,4 @@
-$border-color: rgba(#eee, .2);
+$border-color: rgba($whitesmoke, .1);
 
 .friends {
   padding-top: .5rem;
@@ -7,7 +7,6 @@ $border-color: rgba(#eee, .2);
   text-align: center;
   &-item {
     border-top: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
     &__avatar {
       display: block;
       max-width: 100px;

@@ -12,15 +12,4 @@
     max-width: 100px;
     @include push--auto();
   }
-  &__info {
-    div > button[type="button"] {
-      width: 75%;
-    }
-    @include for-size(tablet-portrait-up) {
-      div > button[type="button"] {
-        padding: .5rem;
-        width: 100%;
-      }
-    }
-  }
 }
