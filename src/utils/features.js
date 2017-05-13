@@ -39,3 +39,8 @@ export function scrollToTop() {
 export function toggle() {
   $('#wrapper').toggleClass('toggled');
 }
+
+export function activePages(currentPage, event) {
+  $(`#${currentPage}`).removeClass('active');
+  $(`#${event.target.id}`).addClass('active');
+}

@@ -19,9 +19,13 @@ export default class News extends Component {
   }
 
   handleOnClick(event) {
+    const { currentPage } = this.state;
+
     this.setState({
       currentPage: Number(event.target.id)
     });
+
+    utils.activePages(currentPage, event);
     utils.scrollToTop();
   }
 
@@ -49,6 +53,7 @@ export default class News extends Component {
         />
         <Pagination
           items={arrAllNews}
+          currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           onClick={this.handleOnClick}
         />
