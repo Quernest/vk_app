@@ -11,12 +11,12 @@ export default function Friends({ itemsPerPage, friends }) {
 
     return (
       <div className='friends-item row' key={index}>
-        <div className='col-md-4 m-t-2 m-b-2'>
+        <div className='col-xs-4 m-t-1 m-b-1'>
           <a href={`https://vk.com/id${uid}`} className='friends-item__avatar'>
             <img src={photo_100} className='img-circle img-fluid' alt='img' />
           </a>
         </div>
-        <div className='col-md-8 m-t-2 m-b-2 text-md-left'>
+        <div className='col-xs-8 m-t-1 m-b-1'>
           <h4>{`${first_name} ${last_name}`}</h4>
           <p>{status}</p>
         </div>

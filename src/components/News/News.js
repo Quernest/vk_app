@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import * as utils from '../utils/features.js';
+import * as utils from '../../utils/features.js';
 
-import Pagination from './Pagination';
-import Items from './News/Items';
+import Pagination from '../Pagination/Pagination';
+import Items from './Items';
 
 export default class News extends Component {
   constructor(props) {

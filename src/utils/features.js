@@ -30,14 +30,12 @@ export function sortGroupsItems(groups, items, array) {
   }
 }
 
-export function sidebarToggle(tag) {
-  const wrapper = $(`#${tag}`);
-
-  wrapper.toggleClass('toggled');
-}
-
 export function scrollToTop() {
   const container = $('html, body');
 
   container.animate({ scrollTop: 0 }, 'slow');
+}
+
+export function toggle() {
+  $('#wrapper').toggleClass('toggled');
 }

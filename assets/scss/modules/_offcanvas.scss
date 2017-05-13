@@ -1,0 +1,37 @@
+$width: 300px;
+
+#wrapper.toggled {
+    .content-offcanvas {
+        margin-left: 0;
+    }
+    .sidebar-offcanvas {
+        left: -$width;
+    }
+}
+
+.sidebar-offcanvas, .content-offcanvas {
+  transition: $transition-fast ease-in-out;
+}
+
+.sidebar-offcanvas {
+  position: fixed;
+  left: 0;
+  width: $width;
+  z-index: 9999;
+}
+
+@include for-size(tablet-portrait-up) {
+  $width: 410px;
+
+  #wrapper.toggled {
+    .sidebar-offcanvas {
+      left: -$width;
+    }
+  }
+  .sidebar-offcanvas {
+    width: $width;
+  }
+  .content-offcanvas {
+    margin-left: $width;
+  }
+}

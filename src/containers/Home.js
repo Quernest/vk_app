@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Header    from '../components/Header';
-import Sidebar   from '../components/Sidebar';
+import Sidebar   from '../components/Sidebar/Sidebar';
 import Dashboard from '../components/Dashboard';
 
 export default class Home extends Component {
@@ -10,7 +10,7 @@ export default class Home extends Component {
     const { data, handleOnClick } = this.props;
 
     return (
-      <div id='wrapper' className='toggled'>
+      <div id='wrapper'>
         <Header handleOnClick={handleOnClick} />
         <Sidebar data={data} handleOnClick={handleOnClick} />
         <Dashboard data={data} handleOnClick={handleOnClick} />

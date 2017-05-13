@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import Profile from './Sidebar/Profile';
-import Friends from './Sidebar/Friends';
+import Profile from './Profile';
+import Friends from './Friends';
 
 export default class Sidebar extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ export default class Sidebar extends Component {
     const { itemsPerPage } = this.state;
 
     return (
-      <div className='sidebar'>
+      <div className='sidebar sidebar-noscrollbar sidebar-offcanvas'>
         <Profile
           user={user}
           users={users}

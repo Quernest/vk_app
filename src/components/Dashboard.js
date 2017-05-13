@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import API from '../core/API.js';
-import News from './News.js';
+import News from './News/News';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ export default class Dashboard extends Component {
     });
 
     return (
-      <div className='dashboard' id='page-content-wrapper'>
+      <div className='dashboard content-offcanvas'>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='textarea'>
             Добавить запись на свою страницу

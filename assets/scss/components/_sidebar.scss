@@ -1,57 +1,12 @@
 .sidebar {
-  position: fixed;
-  background-color: $darkslategray;
+  background-color: rgba(#123, .85);
   color: #eee;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
-  &::-webkit-scrollbar { width: 0; }
-  -ms-overflow-style: none;
   padding: 1rem;
-  left: 250px;
-  width: 0;
-  margin-left: -250px;
-  transition: $transition-base ease;
-}
-
-#wrapper {
-    padding-left: 0;
-    transition: $transition-base ease-out;
-    &.toggled {
-        padding-left: 250px;
-        .sidebar {
-            width: 250px;
-        }
-        #page-content-wrapper {
-            position: absolute;
-            margin-right: -250px;
-        }
-    }
-}
-
-#page-content-wrapper {
-    width: 100%;
-    position: absolute;
-}
-
-@include for-size(tablet-portrait-up) {
-    #wrapper {
-        padding-left: 0;
-        &.toggled {
-            padding-left: 380px;
-            .sidebar {
-                width: 380px;
-            }
-            #page-content-wrapper {
-                position: relative;
-                margin-right: 0;
-            }
-        }
-    }
-    .sidebar {
-        width: 0;
-    }
-    #page-content-wrapper {
-        position: relative;
-    }
+  &-noscrollbar {
+    &::-webkit-scrollbar { width: 0; }
+    -ms-overflow-style: none;
+  }
 }

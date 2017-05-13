@@ -76,10 +76,9 @@ class App extends Component {
   }
 
   _handleOnClick(e) {
+    e.preventDefault();
     const { user, canRefresh } = this.state;
-    const { name } = e.target;
-
-    console.log(e.target.name);
+    const { name } = e.currentTarget;
 
     switch (name) {
       case 'refresh':
@@ -90,7 +89,7 @@ class App extends Component {
         }
         break;
       case 'toggle':
-        utils.sidebarToggle('wrapper');
+        utils.toggle();
         break;
       case 'logout':
         this.logout();

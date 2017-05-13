@@ -5,34 +5,18 @@
   &-toggle {
     width: 45px;
     height: 35px;
-    margin: 5px 0;
     background-color: transparent;
-    outline: none;
     border: none;
     div {
       width: 100%;
       height: 5px;
       background-color: #666;
       margin: 4px auto;
-      transition: all 0.3s;
-      backface-visibility: hidden;
-      border-radius: 5px;   
+      border-radius: 5px;
     }
-    &:hover {
+    &:hover, &:active, &:focus {
+      outline: none;
       cursor: pointer;
-    }
-    &.on {
-      div {
-        &.one {
-          transform: rotate(45deg) translate(5px, 5px);
-        }
-        &.two {
-          opacity: 0;
-        }
-        &.three {
-          transform: rotate(-45deg) translate(7px, -8px);
-        }
-      }
     }
   }
 }
