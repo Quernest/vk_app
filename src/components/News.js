@@ -48,11 +48,9 @@ export default class News extends Component {
           itemsPerPage={itemsPerPage}
         />
         <Pagination
-          currentPage={currentPage}
           items={arrAllNews}
           itemsPerPage={itemsPerPage}
           onClick={this.handleOnClick}
-          type='numbers'
         />
       </div>
     );

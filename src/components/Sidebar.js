@@ -1,42 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import Profile from './Sidebar/Profile';
 import Friends from './Sidebar/Friends';
-import Pagination from './Pagination';
 
 export default class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage : 1,
-      itemsPerPage : 5
+      itemsPerPage: 10
     };
-    this.handleClick = this.handleClick.bind(this);
+
+    this.loadMore = this.loadMore.bind(this);
   }
 
-  handleClick(event) {
-    const { friends } = this.props.data;
-    const { name } = event.target;
-    const { itemsPerPage } = this.state;
-    const lastPage = friends.length / itemsPerPage;
+  loadMore() {
+    let { itemsPerPage } = this.state;
 
-    let { currentPage } = this.state;
-
-    if (name === 'next' && currentPage < lastPage) {
-      this.setState({
-        currentPage: currentPage += 1
-      });
-    } else if (currentPage > 1) {
-      this.setState({
-        currentPage: currentPage -= 1
-      });
-    }
+    this.setState({ itemsPerPage: itemsPerPage += 5 });
   }
 
   render() {
-    const { data: { user, users, status: { text }, friends }, handleOnClick } = this.props;
-    const { currentPage, itemsPerPage } = this.state;
+    const { data: { user, users, status: { text }, friends } } = this.props;
+    const { itemsPerPage } = this.state;
 
     return (
       <div className='sidebar'>
@@ -45,20 +32,18 @@ export default class Sidebar extends Component {
           users={users}
           status={text}
           friends={friends}
-          handleOnClick={handleOnClick}
         />
-        <Pagination
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          items={friends}
-          onClick={this.handleClick}
-          type='arrows'
-        />
-        <Friends
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          friends={friends}
-        />
+        <InfiniteScroll
+          pageStart={0}
+          hasMore={true || false}
+          loadMore={this.loadMore}
+          useWindow={false}
+        >
+          <Friends
+            itemsPerPage={itemsPerPage}
+            friends={friends}
+          />
+        </InfiniteScroll>
       </div>
     );
   }

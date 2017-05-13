@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Friends({ currentPage, itemsPerPage, friends }) {
-  const indexOfLastItem = currentPage * itemsPerPage;
+export default function Friends({ itemsPerPage, friends }) {
+  const indexOfLastItem = itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = friends.slice(indexOfFirstItem, indexOfLastItem);
 
@@ -31,7 +31,6 @@ export default function Friends({ currentPage, itemsPerPage, friends }) {
 }
 
 Friends.propTypes = {
-  currentPage: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
   friends: PropTypes.array.isRequired
 };
