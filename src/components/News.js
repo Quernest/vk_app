@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as utils from '../utils/features.js';
 
 import Pagination from './Pagination';
-import Items from './Items';
+import Items from './News/Items';
 
 export default class News extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ export default class News extends Component {
           items={arrAllNews}
           itemsPerPage={itemsPerPage}
           onClick={this.handleOnClick}
-          type='pagination'
+          type='numbers'
         />
       </div>
     );

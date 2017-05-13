@@ -91,7 +91,7 @@ export default class Sidebar extends Component {
           itemsPerPage={itemsPerPage}
           items={friends}
           onClick={this.handleClick}
-          type='pager'
+          type='arrows'
         />
         <div className='friends'>
           { renderFriends }

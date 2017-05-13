@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import API from '../core/API.js';
 import News from './News.js';
 
@@ -31,16 +32,12 @@ export default class Dashboard extends Component {
     const { textareaVal } = this.state;
     const { data: { news, canRefresh }, handleOnClick } = this.props;
 
+    const refreshButton = classNames('btn btn-refresh btn-success m-t-1 m-l-1', {
+      'disabled': !canRefresh
+    });
+
     return (
-      <div className='dashboard m-t-3' id='page-content-wrapper'>
-        <button
-          className='btn m-b-1'
-          id='menu-toggle'
-          name='toggle'
-          onClick={handleOnClick}
-        >
-          &#9776;
-        </button>
+      <div className='dashboard' id='page-content-wrapper'>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor='textarea'>
             Добавить запись на свою страницу
@@ -59,11 +56,7 @@ export default class Dashboard extends Component {
           />
           <button
             type='button'
-            className={
-              canRefresh ?
-              'btn btn-refresh btn-success m-t-1 m-l-1' :
-              'btn btn-refresh btn-success m-t-1 m-l-1 disabled'
-            }
+            className={refreshButton}
             name='refresh'
             onClick={handleOnClick}
           >

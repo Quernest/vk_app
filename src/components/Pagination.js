@@ -1,51 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Numbers from './Pagination/Numbers';
+import Arrows from './Pagination/Arrows';
+
 export default function Pagination({ items, currentPage, itemsPerPage, onClick, type }) {
-  const pageNumbers = [];
-
-  for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  const renderPageNumbers = pageNumbers.map(number => {
+  if (type === 'arrows') {
     return (
-      <li
-        key={number}
-        id={number}
+      <Arrows
+        currentPage={currentPage}
+        items={items}
+        itemsPerPage={itemsPerPage}
         onClick={onClick}
-      >
-        {number}
-      </li>
-    );
-  });
-
-  if (type === 'pager') {
-    const lastPage = items.length / itemsPerPage;
-
-    return (
-      <div className='pager'>
-        <button
-          className={currentPage === 1 ? 'btn disabled' : 'btn btn-success'}
-          name='prev'
-          onClick={onClick}
-        >
-          &larr;
-        </button>
-        <button
-          className={currentPage >= lastPage ? 'btn disabled' : 'btn btn-success'}
-          name='next'
-          onClick={onClick}
-        >
-          &rarr;
-        </button>
-      </div>
+      />
     );
   }
   return (
-    <ul id='pagination'>
-      {renderPageNumbers}
-    </ul>
+    <Numbers
+      items={items}
+      itemsPerPage={itemsPerPage}
+      onClick={onClick}
+    />
   );
 }
 

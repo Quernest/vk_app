@@ -97,7 +97,7 @@ class App extends Component {
         this.login();
         break;
       default:
-        console.log('click');
+        console.log('click ', name);
         break;
     }
   }

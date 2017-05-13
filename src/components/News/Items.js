@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as utils from '../utils/features.js';
+import * as utils from '../../utils/features.js';
 
 export default function renderItems({ items, currentPage, itemsPerPage }) {
   const indexOfLastItem = currentPage * itemsPerPage;

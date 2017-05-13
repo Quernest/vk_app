@@ -2,14 +2,33 @@
   &-refresh {
     float: right;
   }
-  &-close {
-    color: #eee;
-    font-size: 2em;
-    line-height: 1em;
-    transition: $transition-base ease-out;
-    &:hover {
-      color: red;
-      text-decoration: none;
-    }
-  }
+}
+
+#toggle {
+  width: 28px;
+  height: 30px;
+  margin: 10px 0;
+  z-index: 100000;
+}
+
+#toggle div {
+  width: 100%;
+  height: 5px;
+  background-color: #666;
+  margin: 4px auto;
+  transition: all 0.3s;
+  backface-visibility: hidden;
+  border-radius: 5px;
+}
+
+#toggle.on .one {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+#toggle.on .two {
+  opacity: 0;
+}
+
+#toggle.on .three {
+  transform: rotate(-45deg) translate(7px, -8px);
 }
