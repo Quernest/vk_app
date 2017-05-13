@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 
 import Numbers from './Numbers';
 
-export default function Pagination({ items, currentPage, itemsPerPage, onClick }) {
+export default function Pagination({ items, itemsPerPage, onClick }) {
   return (
     <Numbers
       items={items}
       itemsPerPage={itemsPerPage}
-      currentPage={currentPage}
       onClick={onClick}
     />
   );
@@ -16,7 +15,6 @@ export default function Pagination({ items, currentPage, itemsPerPage, onClick }
 
 Pagination.propTypes = {
   items: PropTypes.array.isRequired,
-  currentPage: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };

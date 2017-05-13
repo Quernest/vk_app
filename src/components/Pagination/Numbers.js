@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default function Numbers({ items, currentPage, itemsPerPage, onClick }) {
+export default function Numbers({ items, itemsPerPage, onClick }) {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
@@ -31,7 +31,6 @@ export default function Numbers({ items, currentPage, itemsPerPage, onClick }) {
 
 Numbers.propTypes = {
   items: PropTypes.array.isRequired,
-  currentPage: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired
 };

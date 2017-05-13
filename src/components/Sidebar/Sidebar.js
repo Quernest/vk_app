@@ -16,9 +16,12 @@ export default class Sidebar extends Component {
   }
 
   loadMore() {
+    const { data: { friends } } = this.props;
     let { itemsPerPage } = this.state;
 
-    this.setState({ itemsPerPage: itemsPerPage += 5 });
+    if (friends.length !== 0 && (friends.length / itemsPerPage) > 1) {
+      this.setState({ itemsPerPage: itemsPerPage += 5 });
+    }
   }
 
   render() {
@@ -35,7 +38,7 @@ export default class Sidebar extends Component {
         />
         <InfiniteScroll
           pageStart={0}
-          hasMore={true || false}
+          hasMore={true}
           loadMore={this.loadMore}
           useWindow={false}
         >
