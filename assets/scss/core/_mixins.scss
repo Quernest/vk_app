@@ -61,7 +61,7 @@ $browser-context: 16;
   } @else if $size == tablet-portrait-up {
     @media (min-width: 768px) { @content; }
   } @else if $size == tablet-landscape-up {
-    @media (min-width: em(900)) { @content; }
+    @media (min-width: em(992)) { @content; }
   } @else if $size == desktop-up {
     @media (min-width: em(1200)) { @content; }
   } @else if $size == big-desktop-up {

@@ -20,7 +20,7 @@ $width: 300px;
   z-index: 9999;
 }
 
-@include for-size(tablet-portrait-up) {
+@include for-size(tablet-landscape-up) {
   $width: 410px;
 
   #wrapper.toggled {
