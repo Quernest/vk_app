@@ -24,7 +24,7 @@ export default class Dashboard extends Component {
     const { textareaVal } = this.state;
 
     if (textareaVal) {
-      API.post('wall', { message: textareaVal });
+      API.post('wall.post', { message: textareaVal });
     }
   }
 

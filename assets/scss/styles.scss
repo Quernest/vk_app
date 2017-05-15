@@ -1,6 +1,6 @@
 // * libs * //
-// $fa-font-path: "~font-awesome/fonts";
-// @import '~font-awesome/scss/font-awesome';
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome';
 // @import 'bootstrap/customizations.scss';
 
 // * site core * // 
@@ -11,6 +11,7 @@
 // * site components * //
 @import 'components/sidebar';
 @import 'components/dashboard';
+@import 'components/news';
 @import 'components/login';
 @import 'components/header';
 
@@ -21,5 +22,6 @@
 @import 'modules/buttons';
 @import 'modules/pagination';
 @import 'modules/offcanvas';
+@import 'modules/likes';
 
 @import 'general';

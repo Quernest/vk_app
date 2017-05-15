@@ -20,11 +20,9 @@ export default class API {
   }
 
   static post(type, params = {}) {
-    const url = `${type}.post`;
-
-    VK.Api.call(url, params, (data) => {
+    VK.Api.call(type, params, (data) => {
       if (data.response) {
-        console.info("message sent successfully");
+        console.info('request sent successfully');
       } else {
         console.error(data.error);
       }

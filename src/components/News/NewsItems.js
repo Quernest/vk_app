@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import NewsPostAuthor from './NewsPostAuthor';
 import NewsPostText from './NewsPostText';
 import NewsPostAttachment from './NewsPostAttachment';
+import NewsPostFooter from './NewsPostFooter';
 
 export default function renderNewsItems({ items, currentPage, itemsPerPage }) {
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -23,10 +24,14 @@ export default function renderNewsItems({ items, currentPage, itemsPerPage }) {
             last_name,
             screen_name,
             name,
-            text
+            text,
+            likes,
+            post_id
           } = item;
 
           if (text && !attachment) {
+            const { type } = item;
+
             return (
               <div className='news-post' key={index}>
                 <NewsPostAuthor
@@ -40,6 +45,11 @@ export default function renderNewsItems({ items, currentPage, itemsPerPage }) {
                   index={index}
                 />
                 <NewsPostText text={text} />
+                <NewsPostFooter
+                  likes={likes}
+                  type={type}
+                  post_id={post_id}
+                />
               </div>
             );
           }
@@ -64,6 +74,11 @@ export default function renderNewsItems({ items, currentPage, itemsPerPage }) {
                   attachment={attachment}
                   text={text}
                   index={index}
+                />
+                <NewsPostFooter
+                  likes={likes}
+                  type={type}
+                  post_id={post_id}
                 />
               </div>
             );

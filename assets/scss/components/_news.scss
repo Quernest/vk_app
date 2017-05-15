@@ -1,0 +1,38 @@
+.news{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  &-author, &-post, &-post__text {
+    padding: .5rem;
+  }
+  &-post {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: $border-radius-base;
+    &__image {
+      display: block;
+      margin: .5rem auto;
+    }
+    &__text {
+      color: #333;
+      background-color: #fff;
+      margin: 0;
+    }
+    &__author {
+      background-color: #fff;
+      margin-bottom: 1.5rem;
+    }
+    &__warning {
+      color: red;
+      font-weight: bold;
+      font-size: 1em;
+      padding: .5rem;
+    }
+    &__footer {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      border-top: 1px solid rgba(#123, .1);
+    }
+  }
+}

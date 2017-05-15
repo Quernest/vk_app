@@ -1,0 +1,9 @@
+.likes {
+  padding-right: .5rem;
+  padding-left: .5rem;
+  margin-left: auto;
+  color: $blue;
+  &-count, &-heart {
+    margin-left: .5rem;
+  }
+}
