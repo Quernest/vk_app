@@ -19,8 +19,8 @@ export default class NewsPostFooter extends Component {
     const { count, can_like } = this.props.likes;
 
     const likeClass = classNames('fa likes-heart', {
-      'fa-heart-o': can_like === 1, // 1 if true
-      'fa-heart': can_like === 0 // 0 if false
+      'fa-heart-o': can_like === 1,
+      'fa-heart': can_like === 0
     });
 
     return (

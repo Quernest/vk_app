@@ -2,17 +2,18 @@ $page-active-color: $blue;
 $border-radius: 5px;
 
 ul#pagination {
-  padding: 1rem;
+  padding: .5rem;
   border-radius: $border-radius;
   background-color: #fff;
   display: flex;
+  margin-bottom: 0;
   li {
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid rgba(#333, .1);
     border-radius: $border-radius;
-    margin-right: 1rem;
+    margin: .5rem;
     width: 36px;
     height: 36px;
     cursor: pointer;

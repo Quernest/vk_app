@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import NewsPostText from './NewsPostText';
 
 export default function NewsPostAttachment({ type, attachment, text, index }) {
-
   return (
     <div className='news-post_attachment'>
       {

@@ -10,10 +10,24 @@ export function sortByDecreasing(arr) {
   arr.sort((a, b) => b.date - a.date);
 }
 
+export function search(arr, text) {
+  return (
+    arr.filter(item => {
+      if (item.name) {
+        return item.name.toLowerCase().indexOf(text.toLowerCase()) >= 0;
+      } else if (item.first_name) {
+        return item.first_name.toLowerCase().indexOf(text.toLowerCase()) >= 0;
+      } else if (item.last_name) {
+        return item.last_name.toLowerCase().indexOf(text.toLowerCase()) >= 0;
+      } return item;
+    })
+  );
+}
+
 export function sortUserItems(profiles, items, array) {
   for (let i = 0; i < profiles.length; i++) {
     for (let j = 0; j < items.length; j++) {
-      if (items[j].source_id == profiles[i].uid) {
+      if (items[j].source_id === profiles[i].uid) {
         array.push($.extend(items[j], profiles[i]));
       }
     }

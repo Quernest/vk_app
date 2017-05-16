@@ -8,10 +8,12 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textareaVal : ''
+      textareaVal: '',
+      filterText: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.filterUpdate = this.filterUpdate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -28,11 +30,17 @@ export default class Dashboard extends Component {
     }
   }
 
+  filterUpdate(event) {
+    this.setState({
+      filterText: event.target.value
+    });
+  }
+
   render() {
-    const { textareaVal } = this.state;
+    const { textareaVal, filterText } = this.state;
     const { data: { news, canRefresh }, onClick } = this.props;
 
-    const refreshButton = classNames('btn btn-refresh btn-success m-t-1 m-l-1', {
+    const refreshButton = classNames('btn btn-success m-l-1 pull-xs-right', {
       'disabled': !canRefresh
     });
 
@@ -49,23 +57,34 @@ export default class Dashboard extends Component {
             value={textareaVal}
             onChange={this.handleChange}
           />
-          <input
-            type='submit'
-            value='Отправить'
-            className='btn btn-primary m-t-1'
-          />
-          <button
-            type='button'
-            className={refreshButton}
-            name='refresh'
-            onClick={onClick}
-          >
-            Обновить
-          </button>
+          <div className='form-group m-t-1'>
+            <div className='w-100'>
+              <input
+                type='submit'
+                value='Отправить'
+                className='btn btn-primary'
+              />
+              <button
+                type='button'
+                className={refreshButton}
+                name='refresh'
+                onClick={onClick}
+              >
+                Обновить
+              </button>
+            </div>
+            <input
+              type='search'
+              value={filterText}
+              onChange={this.filterUpdate}
+              className='form-control m-t-1 w-100'
+              placeholder='Фильтр по названию группы'
+            />
+          </div>
         </form>
         <div className='row'>
           <div className='col-lg-12'>
-            <News news={news} />
+            <News news={news} filterText={filterText} />
           </div>
         </div>
       </div>

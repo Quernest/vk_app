@@ -7,7 +7,7 @@ export default function Login({ onClick }) {
   return (
     <div id='login'>
       <img src={POSTER} alt='poster' className='img-fluid' />
-      <button name='login' className='btn btn-primary' onClick={onClick}>
+      <button name='login' className='btn btn-lg btn-outline-primary' onClick={onClick}>
         Авторизоваться
       </button>
     </div>

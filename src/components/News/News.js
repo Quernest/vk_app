@@ -18,6 +18,12 @@ export default class News extends Component {
     this.handleOnClick = this.handleOnClick.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.filterText) {
+      this.setState({ currentPage: 1 });
+    }
+  }
+
   handleOnClick(event) {
     const { currentPage } = this.state;
 
@@ -32,15 +38,15 @@ export default class News extends Component {
   render() {
     const { currentPage, itemsPerPage } = this.state;
     const { items, groups, profiles } = this.props.news;
+    const { filterText } = this.props;
 
     const arrGroupsNews = [];
     const arrUsersNews  = [];
-    let arrAllNews      = [];
 
     utils.sortUserItems(profiles, items, arrUsersNews);
     utils.sortGroupsItems(groups, items, arrGroupsNews);
 
-    arrAllNews = [...arrGroupsNews, ...arrUsersNews];
+    const arrAllNews = utils.search([...arrGroupsNews, ...arrUsersNews], filterText);
 
     utils.sortByDecreasing(arrAllNews);
 
@@ -63,5 +69,6 @@ export default class News extends Component {
 }
 
 News.propTypes = {
-  news : PropTypes.object.isRequired
+  news: PropTypes.object.isRequired,
+  filterText: PropTypes.string
 };
