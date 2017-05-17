@@ -1,5 +1,6 @@
 # VK API Application
 * [Live example (NEW)](http://quernest.xyz/projects/vk/)
+![VK](http://quernest.xyz/projects/vk/images/poster.png)
 
 ## Contains
 - [x] [Webpack 2.5](https://webpack.github.io)
